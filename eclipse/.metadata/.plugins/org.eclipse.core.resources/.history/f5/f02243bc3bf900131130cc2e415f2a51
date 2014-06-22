@@ -1,0 +1,13 @@
+package tk.yteditors.requiredstuffz.tileentity;
+
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.nbt.NBTTagCompound;
+
+public class TileEntityOven extends TileEntity{
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbtTag){
+		super.writeToNBT(nbtTag);
+		
+	}
+}

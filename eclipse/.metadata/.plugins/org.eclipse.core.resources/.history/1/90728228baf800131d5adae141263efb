@@ -1,0 +1,7 @@
+package tk.yteditors.requiredstuffz.util;
+
+public class RegisterHelper {
+	public void registerBlock(Block block){
+		
+	}
+}

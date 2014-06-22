@@ -13,11 +13,26 @@
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="field" key="selection"/>
+		<item value="direction" key="selection"/>
 		<list key="findhistory">
-			<item value="field"/>
+			<item value="chestFacing"/>
+			<item value="p_149930_4_"/>
+			<item value="p_149930_3_"/>
+			<item value="p_149930_2_"/>
+			<item value="p_149930_1_"/>
+			<item value="p_149726_4_"/>
+			<item value="p_149726_3_"/>
+			<item value="p_149726_2_"/>
 		</list>
 		<list key="replacehistory">
+			<item value="direction"/>
+			<item value="z"/>
+			<item value="y"/>
+			<item value="x"/>
+			<item value="world"/>
+			<item value="setOrientation"/>
+			<item value="rotation"/>
+			<item value="stack"/>
 		</list>
 	</section>
 </section>

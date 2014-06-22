@@ -1,12 +1,31 @@
-[22:14:26] [main/INFO]: Setting user: Player629
-[22:14:26] [Client thread/INFO]: LWJGL Version: 2.9.0
-[22:14:29] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge
-[22:14:29] [Sound Library Loader/INFO]: Sound engine started
-[22:14:31] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
-[22:14:31] [Client thread/INFO]: Created: 256x256 textures/items-atlas
-[22:14:31] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge
-[22:14:31] [Client thread/INFO]: Created: 256x256 textures/items-atlas
-[22:14:31] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
-[22:14:32] [Sound Library Loader/INFO]: Sound engine started
-[22:14:32] [MCO Availability Checker #1/ERROR]: Couldn't connect to Realms
-[22:14:41] [Client thread/INFO]: Stopping!
+[13:54:11] [main/INFO]: Setting user: Player859
+[13:54:12] [Client thread/INFO]: LWJGL Version: 2.9.0
+[13:54:14] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Required Stuffz
+[13:54:15] [Sound Library Loader/INFO]: Sound engine started
+[13:54:15] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
+[13:54:15] [Client thread/INFO]: Created: 256x256 textures/items-atlas
+[13:54:15] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Required Stuffz
+[13:54:15] [Client thread/INFO]: Created: 256x256 textures/items-atlas
+[13:54:15] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
+[13:54:16] [Sound Library Loader/INFO]: Sound engine started
+[13:54:16] [MCO Availability Checker #1/ERROR]: Couldn't connect to Realms
+[13:54:20] [Server thread/INFO]: Starting integrated minecraft server version 1.7.2
+[13:54:20] [Server thread/INFO]: Generating keypair
+[13:54:20] [Server thread/INFO]: Preparing start region for level 0
+[13:54:21] [Server thread/INFO]: Player859[local:E:bc862c4d] logged in with entity id 310 at (-246.549714672216, 95.0, 238.75718908275485)
+[13:54:21] [Server thread/INFO]: Player859 joined the game
+[13:54:21] [Server thread/INFO]: Saving and pausing game...
+[13:54:21] [Server thread/INFO]: Saving chunks for level 'ThisIsAWorld'/Overworld
+[13:54:21] [Server thread/INFO]: Saving chunks for level 'ThisIsAWorld'/Nether
+[13:54:21] [Server thread/INFO]: Saving chunks for level 'ThisIsAWorld'/The End
+[13:54:36] [Server thread/INFO]: Saving and pausing game...
+[13:54:36] [Server thread/INFO]: Saving chunks for level 'ThisIsAWorld'/Overworld
+[13:54:36] [Server thread/INFO]: Saving chunks for level 'ThisIsAWorld'/Nether
+[13:54:36] [Server thread/INFO]: Saving chunks for level 'ThisIsAWorld'/The End
+[13:54:36] [Server thread/INFO]: Stopping server
+[13:54:36] [Server thread/INFO]: Saving players
+[13:54:36] [Server thread/INFO]: Saving worlds
+[13:54:36] [Server thread/INFO]: Saving chunks for level 'ThisIsAWorld'/Overworld
+[13:54:36] [Server thread/INFO]: Saving chunks for level 'ThisIsAWorld'/Nether
+[13:54:36] [Server thread/INFO]: Saving chunks for level 'ThisIsAWorld'/The End
+[13:55:21] [Client thread/INFO]: Stopping!
