@@ -6243,3 +6243,6 @@ org.eclipse.jgit.errors.TransportException: https://github.com/rhbvkleef/letsmod
 	at org.eclipse.egit.ui.internal.push.PushOperationUI.execute(PushOperationUI.java:164)
 	at org.eclipse.egit.ui.internal.push.PushOperationUI$1.run(PushOperationUI.java:226)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+
+!ENTRY org.eclipse.equinox.security 1 0 2014-06-22 09:54:46.088
+!MESSAGE New keyring password generated. 
