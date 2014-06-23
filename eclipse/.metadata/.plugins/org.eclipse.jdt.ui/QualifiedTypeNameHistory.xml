@@ -25,4 +25,6 @@
 <fullyQualifiedTypeName name="net.minecraft.creativetab.CreativeTabs"/>
 <fullyQualifiedTypeName name="tk.yteditors.requiredstuffz.item.ItemBakedPizza"/>
 <fullyQualifiedTypeName name="net.minecraft.item.ItemFood"/>
+<fullyQualifiedTypeName name="tk.yteditors.requiredstuffz.reference.BlockNames"/>
+<fullyQualifiedTypeName name="tk.yteditors.requiredstuffz.reference.ItemNames"/>
 </qualifiedTypeNameHistroy>

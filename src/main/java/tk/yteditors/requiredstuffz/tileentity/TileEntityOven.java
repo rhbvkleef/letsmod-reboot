@@ -2,7 +2,6 @@ package tk.yteditors.requiredstuffz.tileentity;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import tk.yteditors.requiredstuffz.item.ItemUnbakedPizza;
-import tk.yteditors.requiredstuffz.reference.ModInfo;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,7 +17,6 @@ import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityFurnace;
 
 public class TileEntityOven extends TileEntity implements ISidedInventory {
 	private int burnTime = 0;
@@ -147,8 +145,8 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	public boolean isUseableByPlayer(EntityPlayer player) {
 		return this.worldObj.getTileEntity(this.xCoord, this.yCoord,
 				this.zCoord) != this ? false : player.getDistanceSq(
-				(double) this.xCoord + 0.5D, (double) this.yCoord + 0.5D,
-				(double) this.zCoord + 0.5D) <= 64.0D;
+				this.xCoord + 0.5D, this.yCoord + 0.5D,
+				this.zCoord + 0.5D) <= 64.0D;
 	}
 
 	@Override

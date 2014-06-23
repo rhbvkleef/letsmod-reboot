@@ -6,6 +6,7 @@ import tk.yteditors.requiredstuffz.block.BlockOven;
 import tk.yteditors.requiredstuffz.item.ItemBakedPizza;
 import tk.yteditors.requiredstuffz.item.ItemUnbakedPizza;
 import tk.yteditors.requiredstuffz.reference.BlockNames;
+import tk.yteditors.requiredstuffz.reference.ItemNames;
 import tk.yteditors.requiredstuffz.reference.ModInfo;
 import tk.yteditors.requiredstuffz.tileentity.TileEntityOven;
 import tk.yteditors.requiredstuffz.util.RegisterHelper;
@@ -42,8 +43,8 @@ public class RequiredStuffz {
 		RegisterHelper.registerBlock(blockOvenBurningEmpty);
 		RegisterHelper.registerBlock(blockOvenBurningFilled);
 		
-		itemUnbakedPizza = new ItemUnbakedPizza();
-		itemBakedPizza = new ItemBakedPizza();
+		itemUnbakedPizza = new ItemUnbakedPizza().setUnlocalizedName(ItemNames.itemUnbakedPizza);
+		itemBakedPizza = new ItemBakedPizza().setUnlocalizedName(ItemNames.itemBakedPizza);
 		
 		RegisterHelper.registerItem(itemUnbakedPizza);
 		RegisterHelper.registerItem(itemBakedPizza);
