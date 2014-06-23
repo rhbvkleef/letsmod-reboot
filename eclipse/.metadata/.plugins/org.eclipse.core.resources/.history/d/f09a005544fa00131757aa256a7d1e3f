@@ -1,0 +1,12 @@
+package tk.yteditors.requiredstuffz.item;
+
+import net.minecraft.item.ItemFood;
+
+public class ItemBakedPizza extends ItemFood{
+	
+	public ItemBakedPizza() {
+		super(5, 4.0f, false);
+		this.setTextureName();
+	}
+	
+}

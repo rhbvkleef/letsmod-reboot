@@ -1,7 +1,0 @@
-package tk.yteditors.requiredstuffz.tileentity;
-
-import net.minecraft.tileentity.TileEntity;
-
-public class TileEntityOven extends TileEntity{
-	
-}

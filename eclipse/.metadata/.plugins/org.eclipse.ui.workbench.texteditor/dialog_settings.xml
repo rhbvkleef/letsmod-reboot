@@ -10,29 +10,29 @@
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="true" key="wrap"/>
 		<item value="false" key="isRegEx"/>
-		<item value="false" key="casesensitive"/>
+		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="direction" key="selection"/>
+		<item value="furnace" key="selection"/>
 		<list key="findhistory">
-			<item value="chestFacing"/>
-			<item value="p_149930_4_"/>
-			<item value="p_149930_3_"/>
-			<item value="p_149930_2_"/>
-			<item value="p_149930_1_"/>
-			<item value="p_149726_4_"/>
-			<item value="p_149726_3_"/>
-			<item value="p_149726_2_"/>
+			<item value="furnace"/>
+			<item value="light"/>
+			<item value="getItemDropped"/>
+			<item value="println"/>
+			<item value="getDescription"/>
+			<item value="canInsertItem"/>
+			<item value="slotsBottom"/>
+			<item value="openInventory"/>
 		</list>
 		<list key="replacehistory">
+			<item value="item"/>
+			<item value="currentItem"/>
+			<item value="slot"/>
+			<item value="nbtCompound"/>
+			<item value="parItemStack"/>
+			<item value="count"/>
+			<item value=""/>
 			<item value="direction"/>
-			<item value="z"/>
-			<item value="y"/>
-			<item value="x"/>
-			<item value="world"/>
-			<item value="setOrientation"/>
-			<item value="rotation"/>
-			<item value="stack"/>
 		</list>
 	</section>
 </section>
