@@ -1,6 +1,7 @@
 package tk.yteditors.requiredstuffz.tileentity;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import tk.yteditors.requiredstuffz.item.ItemUnbakedPizza;
 import tk.yteditors.requiredstuffz.reference.ModInfo;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -27,7 +28,7 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	private static final int[] slotsTop = new int[] { 0 };
 	private static final int[] slotsBottom = new int[] { 1 };
 	private static final int[] slotsSides = new int[] { 1 };
-
+	
 	@Override
 	public void writeToNBT(NBTTagCompound nbtCompound) {
 		super.writeToNBT(nbtCompound);
@@ -66,6 +67,11 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 
 		burnTime = nbtCompound.getInteger("BurnTime");
 		cookTime = nbtCompound.getInteger("CookTime");
+	}
+	
+	@Override
+	public void updateEntity(){
+		super.updateEntity();
 	}
 
 	@Override
@@ -232,5 +238,20 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 
 	public static boolean isItemUnbakedPizza(ItemStack item) {
 		return true;
+	}
+	
+	public boolean addItem(Item item){
+		if(item instanceof ItemUnbakedPizza){
+			if(itemStacks[0] != null){
+				itemStacks[0] = new ItemStack(item, 1);
+				return true;
+			}
+		}else if(isItemFuel(new ItemStack(item, 1))){
+			if(itemStacks[1] != null){
+				itemStacks[1] = new ItemStack(item, 1);
+				return true;
+			}
+		}
+		return false;
 	}
 }

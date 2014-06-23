@@ -1,0 +1,7 @@
+package tk.yteditors.requiredstuffz.item;
+
+import net.minecraft.item.Item;
+
+public class ItemUnbakedPizza extends Item {
+	
+}

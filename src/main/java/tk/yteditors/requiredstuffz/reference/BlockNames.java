@@ -1,5 +1,5 @@
 package tk.yteditors.requiredstuffz.reference;
 
 public class BlockNames {
-	public static final String blockOven = "Pizza oven";
+	public static final String blockOven = "blockOven";
 }

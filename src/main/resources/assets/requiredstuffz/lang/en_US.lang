@@ -1,1 +1,7 @@
-tile.blockOven.name=Pizza oven
+tile.blockOvenOffEmpty.name=Pizza oven
+tile.blockOvenBurningEmpty.name=Pizza oven
+tile.blockOvenOffFilled.name=Pizza oven
+tile.blockOvenBurningFilled.name=Pizza oven
+
+item.itemBakedPizza.name=Pizza
+item.itemUnbakedPizza.name=Unbaked pizza

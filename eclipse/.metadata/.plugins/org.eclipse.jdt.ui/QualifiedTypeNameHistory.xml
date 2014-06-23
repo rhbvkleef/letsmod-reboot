@@ -8,14 +8,21 @@
 <fullyQualifiedTypeName name="org.apache.logging.log4j.Logger"/>
 <fullyQualifiedTypeName name="org.apache.logging.log4j.LogManager"/>
 <fullyQualifiedTypeName name="net.minecraft.block.Block"/>
-<fullyQualifiedTypeName name="tk.yteditors.requiredstuffz.reference.ModInfo"/>
-<fullyQualifiedTypeName name="net.minecraft.creativetab.CreativeTabs"/>
-<fullyQualifiedTypeName name="tk.yteditors.requiredstuffz.util.RegisterHelper"/>
-<fullyQualifiedTypeName name="net.minecraft.item.Item"/>
 <fullyQualifiedTypeName name="java.util.Random"/>
 <fullyQualifiedTypeName name="net.minecraft.util.MathHelper"/>
 <fullyQualifiedTypeName name="cpw.mods.fml.relauncher.SideOnly"/>
 <fullyQualifiedTypeName name="net.minecraft.tileentity.TileEntity"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="cpw.mods.fml.common.registry.GameRegistry"/>
+<fullyQualifiedTypeName name="net.minecraft.tileentity.TileEntityFurnace"/>
+<fullyQualifiedTypeName name="tk.yteditors.requiredstuffz.tileentity.TileEntityOven"/>
+<fullyQualifiedTypeName name="cpw.mods.fml.common.SidedProxy"/>
+<fullyQualifiedTypeName name="tk.yteditors.requiredstuffz.util.RegisterHelper"/>
+<fullyQualifiedTypeName name="tk.yteditors.requiredstuffz.item.ItemUnbakedPizza"/>
+<fullyQualifiedTypeName name="tk.yteditors.requiredstuffz.RequiredStuffz"/>
+<fullyQualifiedTypeName name="net.minecraft.item.Item"/>
+<fullyQualifiedTypeName name="tk.yteditors.requiredstuffz.reference.ModInfo"/>
+<fullyQualifiedTypeName name="net.minecraft.creativetab.CreativeTabs"/>
+<fullyQualifiedTypeName name="tk.yteditors.requiredstuffz.item.ItemBakedPizza"/>
+<fullyQualifiedTypeName name="net.minecraft.item.ItemFood"/>
 </qualifiedTypeNameHistroy>
