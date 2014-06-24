@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="cpw.mods.fml.common.event.FMLInitializationEvent"/>
-<fullyQualifiedTypeName name="net.minecraft.init.Blocks"/>
 <fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
 <fullyQualifiedTypeName name="cpw.mods.fml.common.Mod"/>
 <fullyQualifiedTypeName name="cpw.mods.fml.common.Mod.EventHandler"/>
@@ -13,18 +12,20 @@
 <fullyQualifiedTypeName name="cpw.mods.fml.relauncher.SideOnly"/>
 <fullyQualifiedTypeName name="net.minecraft.tileentity.TileEntity"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
-<fullyQualifiedTypeName name="cpw.mods.fml.common.registry.GameRegistry"/>
 <fullyQualifiedTypeName name="net.minecraft.tileentity.TileEntityFurnace"/>
-<fullyQualifiedTypeName name="tk.yteditors.requiredstuffz.tileentity.TileEntityOven"/>
 <fullyQualifiedTypeName name="cpw.mods.fml.common.SidedProxy"/>
 <fullyQualifiedTypeName name="tk.yteditors.requiredstuffz.util.RegisterHelper"/>
 <fullyQualifiedTypeName name="tk.yteditors.requiredstuffz.item.ItemUnbakedPizza"/>
-<fullyQualifiedTypeName name="tk.yteditors.requiredstuffz.RequiredStuffz"/>
 <fullyQualifiedTypeName name="net.minecraft.item.Item"/>
-<fullyQualifiedTypeName name="tk.yteditors.requiredstuffz.reference.ModInfo"/>
 <fullyQualifiedTypeName name="net.minecraft.creativetab.CreativeTabs"/>
 <fullyQualifiedTypeName name="tk.yteditors.requiredstuffz.item.ItemBakedPizza"/>
 <fullyQualifiedTypeName name="net.minecraft.item.ItemFood"/>
 <fullyQualifiedTypeName name="tk.yteditors.requiredstuffz.reference.BlockNames"/>
 <fullyQualifiedTypeName name="tk.yteditors.requiredstuffz.reference.ItemNames"/>
+<fullyQualifiedTypeName name="net.minecraft.init.Items"/>
+<fullyQualifiedTypeName name="net.minecraft.init.Blocks"/>
+<fullyQualifiedTypeName name="tk.yteditors.requiredstuffz.RequiredStuffz"/>
+<fullyQualifiedTypeName name="cpw.mods.fml.common.registry.GameRegistry"/>
+<fullyQualifiedTypeName name="tk.yteditors.requiredstuffz.tileentity.TileEntityOven"/>
+<fullyQualifiedTypeName name="tk.yteditors.requiredstuffz.reference.ModInfo"/>
 </qualifiedTypeNameHistroy>

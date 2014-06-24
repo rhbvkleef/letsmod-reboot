@@ -46,10 +46,6 @@ public class BlockOven extends Block {
 		if (burning) {
 			this.setLightLevel(0.857f);
 		}
-		
-		// if(!burning && !hasPizza){
-		setCreativeTab(CreativeTabs.tabBlock);
-		// }
 	}
 	
 	@Override
@@ -93,8 +89,7 @@ public class BlockOven extends Block {
 	 * Set block orientation according to player's face
 	 */
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z,
-			EntityLivingBase entityliving, ItemStack itemStack) {
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityliving, ItemStack itemStack) {
 		byte direction = 0;
 		int facing = MathHelper.floor_double((entityliving.rotationYaw * 4F) / 360F + 0.5D) & 3;
 		
@@ -136,7 +131,7 @@ public class BlockOven extends Block {
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random random) {
 		
-		if (this.burning) {
+		if (burning) {
 			int l = world.getBlockMetadata(x, y, z);
 			float f = x + 0.5F;
 			float f1 = y + 0.0F + random.nextFloat() * 6.0F / 16.0F;
@@ -160,5 +155,4 @@ public class BlockOven extends Block {
 		}
 		
 	}
-	
 }

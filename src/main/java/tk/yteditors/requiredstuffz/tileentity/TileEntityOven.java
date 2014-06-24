@@ -20,6 +20,7 @@ import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityOven extends TileEntity implements ISidedInventory {
 	private int burnTime = 0;
+	private int currentBurnTime = 0;
 	private int cookTime = 0;
 	private ItemStack[] itemStacks = new ItemStack[2];
 
@@ -71,7 +72,7 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	public void updateEntity(){
 		super.updateEntity();
 	}
-
+	
 	@Override
 	public int getSizeInventory() {
 		return this.itemStacks.length;
@@ -88,14 +89,14 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 			ItemStack itemstack;
 
 			if (this.itemStacks[slot].stackSize <= count) {
-				itemstack = this.itemStacks[slot];
-				this.itemStacks[slot] = null;
+				itemstack = itemStacks[slot];
+				itemStacks[slot] = null;
 				return itemstack;
 			} else {
 				itemstack = this.itemStacks[slot].splitStack(count);
 
-				if (this.itemStacks[slot].stackSize == 0) {
-					this.itemStacks[slot] = null;
+				if (itemStacks[slot].stackSize == 0) {
+					itemStacks[slot] = null;
 				}
 
 				return itemstack;
@@ -107,9 +108,9 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 
 	@Override
 	public ItemStack getStackInSlotOnClosing(int slot) {
-		if (this.itemStacks[slot] != null) {
-			ItemStack itemstack = this.itemStacks[slot];
-			this.itemStacks[slot] = null;
+		if (itemStacks[slot] != null) {
+			ItemStack itemstack = itemStacks[slot];
+			itemStacks[slot] = null;
 			return itemstack;
 		} else {
 			return null;
@@ -143,6 +144,7 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
+		System.out.println("Testing if it's useable by player: " + player.toString());
 		return this.worldObj.getTileEntity(this.xCoord, this.yCoord,
 				this.zCoord) != this ? false : player.getDistanceSq(
 				this.xCoord + 0.5D, this.yCoord + 0.5D,

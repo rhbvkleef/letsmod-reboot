@@ -1,0 +1,18 @@
+[
+{
+  "modid": "requiredstuffz",
+  "name": "Required stuffz",
+  "description": "Adds required blocks and items to the game!",
+  "version": "1.0",
+  "credits": "Created by Rolf van Kleef",
+  "logoFile": "/g",
+  "mcversion": "",
+  "url": "http://www.mod-buildcraft.com/",
+  "updateUrl": "",
+  "authors": [ "SpaceToad", "Krapht", "SirSengir", "Others" ],
+  "parent":"",
+  "screenshots": [],
+  "dependencies": [
+         "mod_MinecraftForge"
+]
+}

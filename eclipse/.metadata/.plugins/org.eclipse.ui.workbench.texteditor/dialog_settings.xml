@@ -3,28 +3,29 @@
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="257" key="DIALOG_WIDTH"/>
 		<item value="248" key="DIALOG_Y_ORIGIN"/>
-		<item value="979" key="DIALOG_X_ORIGIN"/>
 		<item value="380" key="DIALOG_HEIGHT"/>
+		<item value="979" key="DIALOG_X_ORIGIN"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="true" key="wrap"/>
-		<item value="true" key="casesensitive"/>
 		<item value="false" key="isRegEx"/>
+		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="random" key="selection"/>
+		<item value="getAccessible" key="selection"/>
 		<list key="findhistory">
+			<item value="getAccessible"/>
+			<item value="updateEntity"/>
+			<item value="modTab"/>
 			<item value="p_149734_5_"/>
 			<item value="p_149734_4_"/>
 			<item value="p_149734_3_"/>
 			<item value="p_149734_2_"/>
 			<item value="p_149734_1_"/>
-			<item value="particle"/>
-			<item value="furnace"/>
-			<item value="light"/>
 		</list>
 		<list key="replacehistory">
+			<item value="mainTab"/>
 			<item value="random"/>
 			<item value="z"/>
 			<item value="y"/>
@@ -32,7 +33,6 @@
 			<item value="world"/>
 			<item value="item"/>
 			<item value="currentItem"/>
-			<item value="slot"/>
 		</list>
 	</section>
 </section>
