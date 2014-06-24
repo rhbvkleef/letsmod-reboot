@@ -9,7 +9,6 @@ public class ItemUnbakedPizza extends ItemFood {
 		super(2, 0.5f, false);
 		setUnlocalizedName("itemUnbakedPizza");
 		setMaxStackSize(1);
-		setCreativeTab(CreativeTabs.tabFood);
 		setTextureName(ModInfo.modId + ":" + getUnlocalizedName());
 	}
 }

@@ -5,3 +5,5 @@ tile.blockOvenBurningFilled.name=Pizza oven
 
 item.itemBakedPizza.name=Pizza
 item.itemUnbakedPizza.name=Unbaked pizza
+
+itemGroup.Required stuffz=Required stuffz
