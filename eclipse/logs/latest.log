@@ -1,9 +1,9 @@
-[22:40:19] [main/INFO]: Setting user: rhbvkleef
-[22:40:20] [Client thread/INFO]: LWJGL Version: 2.9.0
-[22:40:23] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Required stuffz
-[22:40:23] [Sound Library Loader/INFO]: Sound engine started
-[22:40:24] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
-[22:40:24] [Client thread/ERROR]: Using missing texture, unable to load requiredstuffz:textures/items/item.itemUnbakedPizza.png
+[16:39:50] [main/INFO]: Setting user: rhbvkleef
+[16:39:50] [Client thread/INFO]: LWJGL Version: 2.9.0
+[16:39:53] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Required stuffz
+[16:39:53] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
+[16:39:53] [Sound Library Loader/INFO]: Sound engine started
+[16:39:53] [Client thread/ERROR]: Using missing texture, unable to load requiredstuffz:textures/items/item.itemUnbakedPizza.png
 java.io.FileNotFoundException: requiredstuffz:textures/items/item.itemUnbakedPizza.png
 	at net.minecraft.client.resources.FallbackResourceManager.getResource(FallbackResourceManager.java:65) ~[FallbackResourceManager.class:?]
 	at net.minecraft.client.resources.SimpleReloadableResourceManager.getResource(SimpleReloadableResourceManager.java:67) ~[SimpleReloadableResourceManager.class:?]
@@ -21,7 +21,7 @@ java.io.FileNotFoundException: requiredstuffz:textures/items/item.itemUnbakedPiz
 	at java.lang.reflect.Method.invoke(Unknown Source) ~[?:1.7.0_51]
 	at net.minecraft.launchwrapper.Launch.launch(Launch.java:134) [launchwrapper-1.9.jar:?]
 	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.9.jar:?]
-[22:40:24] [Client thread/ERROR]: Using missing texture, unable to load requiredstuffz:textures/items/item.itemBakedPizza.png
+[16:39:53] [Client thread/ERROR]: Using missing texture, unable to load requiredstuffz:textures/items/item.itemBakedPizza.png
 java.io.FileNotFoundException: requiredstuffz:textures/items/item.itemBakedPizza.png
 	at net.minecraft.client.resources.FallbackResourceManager.getResource(FallbackResourceManager.java:65) ~[FallbackResourceManager.class:?]
 	at net.minecraft.client.resources.SimpleReloadableResourceManager.getResource(SimpleReloadableResourceManager.java:67) ~[SimpleReloadableResourceManager.class:?]
@@ -39,9 +39,9 @@ java.io.FileNotFoundException: requiredstuffz:textures/items/item.itemBakedPizza
 	at java.lang.reflect.Method.invoke(Unknown Source) ~[?:1.7.0_51]
 	at net.minecraft.launchwrapper.Launch.launch(Launch.java:134) [launchwrapper-1.9.jar:?]
 	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.9.jar:?]
-[22:40:24] [Client thread/INFO]: Created: 256x256 textures/items-atlas
-[22:40:24] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Required stuffz
-[22:40:24] [Client thread/ERROR]: Using missing texture, unable to load requiredstuffz:textures/items/item.itemUnbakedPizza.png
+[16:39:53] [Client thread/INFO]: Created: 256x256 textures/items-atlas
+[16:39:53] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Required stuffz
+[16:39:53] [Client thread/ERROR]: Using missing texture, unable to load requiredstuffz:textures/items/item.itemUnbakedPizza.png
 java.io.FileNotFoundException: requiredstuffz:textures/items/item.itemUnbakedPizza.png
 	at net.minecraft.client.resources.FallbackResourceManager.getResource(FallbackResourceManager.java:65) ~[FallbackResourceManager.class:?]
 	at net.minecraft.client.resources.SimpleReloadableResourceManager.getResource(SimpleReloadableResourceManager.java:67) ~[SimpleReloadableResourceManager.class:?]
@@ -62,7 +62,7 @@ java.io.FileNotFoundException: requiredstuffz:textures/items/item.itemUnbakedPiz
 	at java.lang.reflect.Method.invoke(Unknown Source) ~[?:1.7.0_51]
 	at net.minecraft.launchwrapper.Launch.launch(Launch.java:134) [launchwrapper-1.9.jar:?]
 	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.9.jar:?]
-[22:40:24] [Client thread/ERROR]: Using missing texture, unable to load requiredstuffz:textures/items/item.itemBakedPizza.png
+[16:39:53] [Client thread/ERROR]: Using missing texture, unable to load requiredstuffz:textures/items/item.itemBakedPizza.png
 java.io.FileNotFoundException: requiredstuffz:textures/items/item.itemBakedPizza.png
 	at net.minecraft.client.resources.FallbackResourceManager.getResource(FallbackResourceManager.java:65) ~[FallbackResourceManager.class:?]
 	at net.minecraft.client.resources.SimpleReloadableResourceManager.getResource(SimpleReloadableResourceManager.java:67) ~[SimpleReloadableResourceManager.class:?]
@@ -83,8 +83,27 @@ java.io.FileNotFoundException: requiredstuffz:textures/items/item.itemBakedPizza
 	at java.lang.reflect.Method.invoke(Unknown Source) ~[?:1.7.0_51]
 	at net.minecraft.launchwrapper.Launch.launch(Launch.java:134) [launchwrapper-1.9.jar:?]
 	at net.minecraft.launchwrapper.Launch.main(Launch.java:28) [launchwrapper-1.9.jar:?]
-[22:40:24] [Client thread/INFO]: Created: 256x256 textures/items-atlas
-[22:40:24] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
-[22:40:25] [Sound Library Loader/INFO]: Sound engine started
-[22:40:25] [MCO Availability Checker #1/ERROR]: Couldn't connect to Realms
-[22:40:50] [Client thread/INFO]: Stopping!
+[16:39:53] [Client thread/INFO]: Created: 256x256 textures/items-atlas
+[16:39:54] [Client thread/INFO]: Created: 512x256 textures/blocks-atlas
+[16:39:54] [Sound Library Loader/INFO]: Sound engine started
+[16:39:55] [MCO Availability Checker #1/ERROR]: Couldn't connect to Realms
+[16:39:58] [Server thread/INFO]: Starting integrated minecraft server version 1.7.2
+[16:39:58] [Server thread/INFO]: Generating keypair
+[16:39:58] [Server thread/INFO]: Preparing start region for level 0
+[16:39:59] [Server thread/INFO]: rhbvkleef[local:E:fe76df75] logged in with entity id 224 at (-246.39454422779158, 99.0, 237.7383321204197)
+[16:39:59] [Server thread/INFO]: rhbvkleef joined the game
+[16:40:05] [Server thread/INFO]: [@: Block placed]
+[16:40:05] [Client thread/INFO]: [CHAT] [@: Block placed]
+[16:40:24] [Server thread/INFO]: [@: Block placed]
+[16:40:24] [Client thread/INFO]: [CHAT] [@: Block placed]
+[16:40:35] [Server thread/INFO]: Saving and pausing game...
+[16:40:35] [Server thread/INFO]: Saving chunks for level 'ThisIsAWorld'/Overworld
+[16:40:35] [Server thread/INFO]: Saving chunks for level 'ThisIsAWorld'/Nether
+[16:40:35] [Server thread/INFO]: Saving chunks for level 'ThisIsAWorld'/The End
+[16:40:36] [Server thread/INFO]: Stopping server
+[16:40:36] [Server thread/INFO]: Saving players
+[16:40:36] [Server thread/INFO]: Saving worlds
+[16:40:36] [Server thread/INFO]: Saving chunks for level 'ThisIsAWorld'/Overworld
+[16:40:36] [Server thread/INFO]: Saving chunks for level 'ThisIsAWorld'/Nether
+[16:40:36] [Server thread/INFO]: Saving chunks for level 'ThisIsAWorld'/The End
+[16:40:36] [Client thread/INFO]: Stopping!

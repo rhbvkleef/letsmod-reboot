@@ -12,7 +12,7 @@ public class MainTab extends CreativeTabs{
 
 	@Override
 	public Item getTabIconItem() {
-		return Item.getItemFromBlock(RequiredStuffz.blockOvenBurningFilled);
+		return Item.getItemFromBlock(RequiredStuffz.blockOvenOn);
 	}
 	
 }

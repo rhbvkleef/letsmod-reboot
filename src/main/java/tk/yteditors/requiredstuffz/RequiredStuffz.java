@@ -34,10 +34,8 @@ public class RequiredStuffz {
 				serverSide = "tk.yteditors.requiredstuffz.proxy.ServerProxy")
 	public static ServerProxy proxy;
 	
-	public static Block blockOvenOffEmpty;
-	public static Block blockOvenOffFilled;
-	public static Block blockOvenBurningEmpty;
-	public static Block blockOvenBurningFilled;
+	public static Block blockOvenOff;
+	public static Block blockOvenOn;
 	
 	public static Item itemUnbakedPizza;
 	public static Item itemBakedPizza;
@@ -47,15 +45,11 @@ public class RequiredStuffz {
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent e){
 		
-		blockOvenOffEmpty = new BlockOven(false, false).setBlockName(BlockNames.blockOven + "OffEmpty");;
-		blockOvenOffFilled = new BlockOven(false, true).setBlockName(BlockNames.blockOven + "OffFilled");;
-		blockOvenBurningEmpty = new BlockOven(true, false).setBlockName(BlockNames.blockOven + "BurningEmpty");;
-		blockOvenBurningFilled = new BlockOven(true, true).setBlockName(BlockNames.blockOven + "BurningFilled");
+		blockOvenOff = new BlockOven(false).setBlockName(BlockNames.blockOven + "Off");
+		blockOvenOn = new BlockOven(true).setBlockName(BlockNames.blockOven + "On");
 		
-		RegisterHelper.registerBlock(blockOvenOffEmpty);
-		RegisterHelper.registerBlock(blockOvenOffFilled);
-		RegisterHelper.registerBlock(blockOvenBurningEmpty);
-		RegisterHelper.registerBlock(blockOvenBurningFilled);
+		RegisterHelper.registerBlock(blockOvenOff);
+		RegisterHelper.registerBlock(blockOvenOn);
 		
 		itemUnbakedPizza = new ItemUnbakedPizza().setUnlocalizedName(ItemNames.itemUnbakedPizza);
 		itemBakedPizza = new ItemBakedPizza().setUnlocalizedName(ItemNames.itemBakedPizza);
@@ -69,7 +63,7 @@ public class RequiredStuffz {
 															 'x', new ItemStack(Blocks.dirt));
 		
 		mainTab = new MainTab();
-		blockOvenOffEmpty.setCreativeTab(mainTab);
+		blockOvenOff.setCreativeTab(mainTab);
 		itemUnbakedPizza.setCreativeTab(mainTab);
 		itemBakedPizza.setCreativeTab(mainTab);
 		
