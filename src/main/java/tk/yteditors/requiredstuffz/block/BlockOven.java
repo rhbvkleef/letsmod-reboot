@@ -7,6 +7,7 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -14,6 +15,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import tk.yteditors.requiredstuffz.RequiredStuffz;
+import tk.yteditors.requiredstuffz.item.ItemUnbakedPizza;
 import tk.yteditors.requiredstuffz.reference.BlockNames;
 import tk.yteditors.requiredstuffz.reference.ModInfo;
 import tk.yteditors.requiredstuffz.tileentity.TileEntityOven;
@@ -22,12 +24,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockOven extends BlockContainer {
 	
-	enum Texture {
-		ON_HAS_ITEM, OFF_HAS_ITEM, ON_EMPTY, OFF_EMPTY
-	}
-	
 	@SideOnly(Side.CLIENT)
-	private IIcon			blockIconFrontOffEmpty, blockIconFrontOffFilled, blockIconFrontOnEmpty, blockIconFrontOnFilled,
+	private IIcon			blockIconFrontOffEmpty, blockIconFrontOffUnbaked, blockIconFrontOffBaked,
+							blockIconFrontOnEmpty, blockIconFrontOnUnbaked, blockIconFrontOnBaked,
 							blockIconTop, blockIconSide;
 	
 	int						rotation;
@@ -51,9 +50,11 @@ public class BlockOven extends BlockContainer {
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister register) {
 		
-		blockIconFrontOnFilled= register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_front_on_filled");
+		blockIconFrontOnUnbaked= register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_front_on_unbaked");
+		blockIconFrontOnBaked= register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_front_on_baked");
 		blockIconFrontOnEmpty = register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_front_on_empty");
-		blockIconFrontOffFilled = register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_front_off_filled");
+		blockIconFrontOffUnbaked = register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_front_off_unbaked");
+		blockIconFrontOffBaked = register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_front_off_baked");
 		blockIconFrontOffEmpty = register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_front_off_empty");
 		
 		blockIconTop = register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_top");
@@ -68,6 +69,7 @@ public class BlockOven extends BlockContainer {
 	public IIcon getIcon(int side, int metadata) {
 		int sideMeta = getDirection(metadata);
 		boolean hasItem = getHasItem(metadata);
+		boolean isItemBaked = getIsItemBurned(metadata);
 		
 		if (metadata == 0 && side == 3) {
 			return burning ? blockIconFrontOnEmpty : blockIconFrontOffEmpty;
@@ -75,9 +77,9 @@ public class BlockOven extends BlockContainer {
 			return blockIconTop;
 		} else if (sideMeta == side) {
 			if(burning){
-				return hasItem ? blockIconFrontOnFilled : blockIconFrontOnEmpty;
+				return hasItem ? (isItemBaked ? blockIconFrontOnBaked : blockIconFrontOnUnbaked) : blockIconFrontOnEmpty;
 			}else{
-				return hasItem ? blockIconFrontOffFilled : blockIconFrontOffEmpty;
+				return hasItem ? (isItemBaked ? blockIconFrontOffBaked : blockIconFrontOffUnbaked) : blockIconFrontOffEmpty;
 			}
 		} else {
 			return blockIconSide;
@@ -105,7 +107,7 @@ public class BlockOven extends BlockContainer {
 			direction = 4;
 		}
 		
-		world.setBlockMetadataWithNotify(x, y, z, getMetadata(false, getMetadata(false, direction-2)), 2);
+		world.setBlockMetadataWithNotify(x, y, z, getMetadata(false, false, direction - 2), 2);
 	}
 	
 	public Item getItemDropped(World world, int x, int y, int z) {
@@ -123,7 +125,7 @@ public class BlockOven extends BlockContainer {
 	}
 	
 	public static void updateBlockState(boolean burning, World world, int x, int y, int z) {
-		
+		// TODO auto generated method stub
 	}
 	
 	@Override
@@ -164,25 +166,52 @@ public class BlockOven extends BlockContainer {
 		return metadata < 4 ? false : true;
 	}
 	
+	public boolean getIsItemBurned(int metadata){
+		return metadata > 7 ? true : false;
+	}
 	
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float par1, float par2, float par3){
+		TileEntityOven tileEntity = (TileEntityOven) world.getTileEntity(x, y, z);
+		int metadata = tileEntity.blockMetadata;
+		int direction = getDirection(metadata);
+		
+		if(player.getHeldItem() != null && tileEntity.isUseableByPlayer(player) && side == direction){
+			if(player.getHeldItem().getItem() instanceof ItemUnbakedPizza){
+				System.out.println("Trying to insert pizza");
+				// TODO insert pizza
+				return true;
+			}else if(TileEntityOven.isItemFuel(player.getHeldItem())){
+				System.out.println("Trying to insert fuel");
+				// TODO insert fuel
+				return true;
+			}
+		}else if(side == 1){
+			System.out.println("Trying to access crafting interface");
+		}
+		
+		
+		
+		return true;
+	}
 	
 	public int getDirection(int metadata){
 		switch(metadata) {
-			case 0: case 4:
+			case 0: case 4: case 8:
 				return 2;
-			case 1: case 5:
+			case 1: case 5: case 9:
 				return 3;
-			case 2: case 6:
+			case 2: case 6: case 10:
 				return 4;
-			case 3: case 7:
+			case 3: case 7: case 11:
 				return 5;
 			default:
 				return 5;
 		}
 	}
 	
-	public int getMetadata(boolean hasItem, int direction){
-		return hasItem ? direction + 4 : direction;
+	public int getMetadata(boolean hasItem, boolean isItemBaked, int direction){
+		return hasItem ? (!isItemBaked ? direction + 4 : direction + 8) : direction;
 	}
 	
 }
