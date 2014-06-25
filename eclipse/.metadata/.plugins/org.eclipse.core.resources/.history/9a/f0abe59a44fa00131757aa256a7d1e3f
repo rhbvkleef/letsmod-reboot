@@ -1,8 +1,0 @@
-package tk.yteditors.requiredstuffz.item;
-
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemFood;
-
-public class ItemUnbakedPizza extends ItemFood {
-	
-}
