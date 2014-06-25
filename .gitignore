@@ -1,5 +1,12 @@
 *.class
 
+# Some folders that aren't needed
+eclipse
+bin
+.gradle
+.settings
+build
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
