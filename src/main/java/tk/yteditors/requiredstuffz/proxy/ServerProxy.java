@@ -4,7 +4,7 @@ import tk.yteditors.requiredstuffz.reference.ModInfo;
 import tk.yteditors.requiredstuffz.tileentity.TileEntityOven;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class ServerProxy {
+public class ServerProxy extends CommonProxy {
 
 	public void registerRenderers(){
 		

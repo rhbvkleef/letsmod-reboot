@@ -10,6 +10,7 @@ import tk.yteditors.requiredstuffz.block.BlockOven;
 import tk.yteditors.requiredstuffz.creativeTabs.MainTab;
 import tk.yteditors.requiredstuffz.item.ItemBakedPizza;
 import tk.yteditors.requiredstuffz.item.ItemUnbakedPizza;
+import tk.yteditors.requiredstuffz.proxy.IProxy;
 import tk.yteditors.requiredstuffz.proxy.ServerProxy;
 import tk.yteditors.requiredstuffz.reference.BlockNames;
 import tk.yteditors.requiredstuffz.reference.ItemNames;
@@ -32,7 +33,7 @@ public class RequiredStuffz {
 	
 	@SidedProxy(clientSide = "tk.yteditors.requiredstuffz.proxy.ClientProxy",
 				serverSide = "tk.yteditors.requiredstuffz.proxy.ServerProxy")
-	public static ServerProxy proxy;
+	public static IProxy proxy;
 	
 	public static Block blockOvenOff;
 	public static Block blockOvenOn;
