@@ -1,7 +1,5 @@
 package tk.yteditors.requiredstuffz.block;
 
-import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -9,11 +7,15 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatStyle;
+import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
@@ -132,6 +134,53 @@ public class BlockOven extends BlockContainer {
 	}
 	
 	@Override
+	public void breakBlock(World world, int x, int y, int z, Block par5, int par6) {
+		super.breakBlock(world, x, y, z, par5, par6);
+		dropItems(world, x, y, z);
+	}
+	
+	private void dropItems(World world, int x, int y, int z) {
+		Random rand = new Random();
+		TileEntity tileEntity = world.getTileEntity(x, y, z);
+		
+		if (!(tileEntity instanceof IInventory)) {
+			System.out.println("Tile entity not instanceof IInventory");
+			return;
+		}
+		
+		IInventory inventory = (IInventory) tileEntity;
+		
+		System.out.println("Length inventory: " + inventory.getSizeInventory());
+		
+		for (int i = 0; i < inventory.getSizeInventory(); i++) {
+			ItemStack item = inventory.getStackInSlot(i);
+			
+			System.out.println(item.getDisplayName());
+			
+			if (item != null && item.stackSize > 0) {
+				float rx = rand.nextFloat() * 0.8F + 0.1F;
+				float ry = rand.nextFloat() * 0.8F + 0.1F;
+				float rz = rand.nextFloat() * 0.8F + 0.1F;
+				EntityItem entityItem = new EntityItem(world, x + rx, y + ry, z
+						+ rz, new ItemStack(item.getItem(), item.stackSize,
+						item.getItemDamage()));
+				
+				if (item.hasTagCompound()) {
+					entityItem.getEntityItem().setTagCompound(
+							(NBTTagCompound) item.getTagCompound().copy());
+				}
+				
+				float factor = 0.05F;
+				entityItem.motionX = rand.nextGaussian() * factor;
+				entityItem.motionY = rand.nextGaussian() * factor + 0.2F;
+				entityItem.motionZ = rand.nextGaussian() * factor;
+				world.spawnEntityInWorld(entityItem);
+				item.stackSize = 0;
+			}
+		}
+	}
+	
+	@Override
 	public Item getItem(World world, int x, int y, int z) {
 		return Item.getItemFromBlock(RequiredStuffz.blockOvenOff);
 	}
@@ -222,10 +271,6 @@ public class BlockOven extends BlockContainer {
 					if (success) {
 						player.inventory.setInventorySlotContents(
 								player.inventory.currentItem, null);
-						System.out.println("Old metadata: " + metadata);
-						System.out.println("New metadata: "
-								+ getMetadata(true, false,
-										getMetaDirection(metadata)));
 						setMetadata(world, x, y, z, getMetadata(true, false,
 								getMetaDirection(metadata)));
 					}
@@ -240,8 +285,17 @@ public class BlockOven extends BlockContainer {
 							.getHeldItem());
 					
 					if (success) {
-						player.inventory.setInventorySlotContents(
-								player.inventory.currentItem, null);
+						ItemStack current = player.inventory
+								.getStackInSlot(player.inventory.currentItem);
+						if (current.stackSize == 1) {
+							player.inventory.setInventorySlotContents(
+									player.inventory.currentItem, null);
+						} else {
+							player.inventory.setInventorySlotContents(
+									player.inventory.currentItem,
+									new ItemStack(current.getItem(),
+											current.stackSize - 1));
+						}
 					}
 				}
 			}
@@ -257,8 +311,7 @@ public class BlockOven extends BlockContainer {
 				world.markBlockForUpdate(x, y, z);
 			} else {
 				player.addChatMessage(IChatComponent.Serializer
-						.func_150699_a("Test!" + world.isRemote));
-				System.out.println("Trying to access crafting interface");
+						.func_150699_a("This feature is not yet implemented!"));
 			}
 		}
 		

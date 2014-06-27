@@ -31,7 +31,6 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbtCompound) {
-		System.out.println("Saving NBT!");
 		super.writeToNBT(nbtCompound);
 		
 		nbtCompound.setInteger("burnTime", burnTime);
@@ -58,8 +57,6 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 		NBTTagList nbttaglist = nbtCompound.getTagList("Items",
 				Constants.NBT.TAG_COMPOUND);
 		itemStacks = new ItemStack[getSizeInventory()];
-		
-		System.out.println("TagList length: " + nbttaglist.tagCount());
 		
 		for (int i = 0; i < nbttaglist.tagCount(); ++i) {
 			NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
@@ -88,7 +85,7 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	
 	@Override
 	public ItemStack getStackInSlot(int slot) {
-		return this.itemStacks[slot];
+		return itemStacks[slot];
 	}
 	
 	@Override
@@ -285,6 +282,11 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	}
 	
 	public boolean insertFuel(ItemStack item) {
-		return false;
+		if(itemStacks[1] == null || itemStacks[1].stackSize == 0){
+			itemStacks[1] = item;
+			return true;
+		}else{
+			return false;
+		}
 	}
 }
