@@ -1,5 +1,7 @@
 package tk.yteditors.requiredstuffz;
 
+import java.util.logging.Logger;
+
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
@@ -11,11 +13,9 @@ import tk.yteditors.requiredstuffz.creativeTabs.MainTab;
 import tk.yteditors.requiredstuffz.item.ItemBakedPizza;
 import tk.yteditors.requiredstuffz.item.ItemUnbakedPizza;
 import tk.yteditors.requiredstuffz.proxy.IProxy;
-import tk.yteditors.requiredstuffz.proxy.ServerProxy;
 import tk.yteditors.requiredstuffz.reference.BlockNames;
 import tk.yteditors.requiredstuffz.reference.ItemNames;
 import tk.yteditors.requiredstuffz.reference.ModInfo;
-import tk.yteditors.requiredstuffz.tileentity.TileEntityOven;
 import tk.yteditors.requiredstuffz.util.RegisterHelper;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Instance;
@@ -45,7 +45,6 @@ public class RequiredStuffz {
 	
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent e){
-		
 		blockOvenOff = new BlockOven(false).setBlockName(BlockNames.blockOven + "Off");
 		blockOvenOn = new BlockOven(true).setBlockName(BlockNames.blockOven + "On");
 		
@@ -57,24 +56,22 @@ public class RequiredStuffz {
 		
 		RegisterHelper.registerItem(itemUnbakedPizza);
 		RegisterHelper.registerItem(itemBakedPizza);
-		
-		GameRegistry.addRecipe(new ItemStack(Items.diamond), "xxx",
-															 "x x",
-															 "xxx",
-															 'x', new ItemStack(Blocks.dirt));
+	}
+	
+	@Mod.EventHandler
+	public void init(FMLInitializationEvent e){
+		proxy.registerRenderers();
+		proxy.registerTileEntities();
 		
 		mainTab = new MainTab();
 		blockOvenOff.setCreativeTab(mainTab);
 		itemUnbakedPizza.setCreativeTab(mainTab);
 		itemBakedPizza.setCreativeTab(mainTab);
 		
-		proxy.registerTileEntities();
-		
-	}
-	
-	@Mod.EventHandler
-	public void init(FMLInitializationEvent e){
-		
+		GameRegistry.addRecipe(new ItemStack(Items.diamond),
+				"xxx",
+				"x x",
+				"xxx", 'x', new ItemStack(Blocks.dirt));
 	}
 	
 	@Mod.EventHandler

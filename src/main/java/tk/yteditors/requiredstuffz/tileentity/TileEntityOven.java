@@ -31,9 +31,11 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	@Override
 	public void writeToNBT(NBTTagCompound nbtCompound) {
 		super.writeToNBT(nbtCompound);
+		
 		nbtCompound.setInteger("burnTime", burnTime);
+		nbtCompound.setInteger("currentBurnTime", currentBurnTime);
 		nbtCompound.setInteger("cookTime", cookTime);
-
+		
 		NBTTagList nbttaglist = new NBTTagList();
 
 		for (int i = 0; i < this.itemStacks.length; ++i) {
@@ -65,6 +67,7 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 		}
 
 		burnTime = nbtCompound.getInteger("BurnTime");
+		currentBurnTime = nbtCompound.getInteger("currentBurnTime");
 		cookTime = nbtCompound.getInteger("CookTime");
 	}
 	
@@ -251,6 +254,14 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 				return true;
 			}
 		}
+		return false;
+	}
+	
+	public boolean insertPizza(ItemStack item){
+		return false;
+	}
+	
+	public boolean insertFuel(ItemStack item){
 		return false;
 	}
 }

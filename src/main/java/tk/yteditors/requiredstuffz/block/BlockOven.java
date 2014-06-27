@@ -1,5 +1,7 @@
 package tk.yteditors.requiredstuffz.block;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -11,6 +13,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatStyle;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -176,18 +180,41 @@ public class BlockOven extends BlockContainer {
 		int metadata = tileEntity.blockMetadata;
 		int direction = getDirection(metadata);
 		
-		if(player.getHeldItem() != null && tileEntity.isUseableByPlayer(player) && side == direction){
+		ItemStack playerItem = player.getCurrentEquippedItem();
+		
+		if(tileEntity == null || player.isSneaking() || !tileEntity.isUseableByPlayer(player)) return false;
+		
+		if(playerItem != null && side == direction){
 			if(player.getHeldItem().getItem() instanceof ItemUnbakedPizza){
-				System.out.println("Trying to insert pizza");
-				// TODO insert pizza
-				return true;
+				if(world.isRemote){
+					world.markBlockForUpdate(x, y, z);
+				}else{
+					boolean success = tileEntity.insertPizza(player.getHeldItem());
+					
+					if(success){
+						player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+					}
+				}
 			}else if(TileEntityOven.isItemFuel(player.getHeldItem())){
-				System.out.println("Trying to insert fuel");
-				// TODO insert fuel
-				return true;
+				if(world.isRemote){
+					
+					world.markBlockForUpdate(x, y, z);
+					
+				}else{
+					boolean success = tileEntity.insertFuel(player.getHeldItem());
+					
+					if(success){
+						player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+					}
+				}
 			}
 		}else if(side == 1){
-			System.out.println("Trying to access crafting interface");
+			if(world.isRemote){
+				world.markBlockForUpdate(x, y, z);
+			}else{
+				player.addChatMessage(IChatComponent.Serializer.func_150699_a("Test!" + world.isRemote));
+				System.out.println("Trying to access crafting interface");
+			}
 		}
 		
 		
