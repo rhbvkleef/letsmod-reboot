@@ -29,9 +29,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class BlockOven extends BlockContainer {
 	
 	@SideOnly(Side.CLIENT)
-	private IIcon			blockIconFrontOffEmpty, blockIconFrontOffUnbaked, blockIconFrontOffBaked,
-							blockIconFrontOnEmpty, blockIconFrontOnUnbaked, blockIconFrontOnBaked,
-							blockIconTop, blockIconSide;
+	private IIcon			blockIconFrontOffEmpty, blockIconFrontOffUnbaked,
+			blockIconFrontOffBaked, blockIconFrontOnEmpty,
+			blockIconFrontOnUnbaked, blockIconFrontOnBaked, blockIconTop,
+			blockIconSide;
 	
 	int						rotation;
 	
@@ -54,15 +55,23 @@ public class BlockOven extends BlockContainer {
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister register) {
 		
-		blockIconFrontOnUnbaked= register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_front_on_unbaked");
-		blockIconFrontOnBaked= register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_front_on_baked");
-		blockIconFrontOnEmpty = register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_front_on_empty");
-		blockIconFrontOffUnbaked = register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_front_off_unbaked");
-		blockIconFrontOffBaked = register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_front_off_baked");
-		blockIconFrontOffEmpty = register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_front_off_empty");
+		blockIconFrontOnUnbaked = register.registerIcon(ModInfo.modId + ":"
+				+ BlockNames.blockOven + "_front_on_unbaked");
+		blockIconFrontOnBaked = register.registerIcon(ModInfo.modId + ":"
+				+ BlockNames.blockOven + "_front_on_baked");
+		blockIconFrontOnEmpty = register.registerIcon(ModInfo.modId + ":"
+				+ BlockNames.blockOven + "_front_on_empty");
+		blockIconFrontOffUnbaked = register.registerIcon(ModInfo.modId + ":"
+				+ BlockNames.blockOven + "_front_off_unbaked");
+		blockIconFrontOffBaked = register.registerIcon(ModInfo.modId + ":"
+				+ BlockNames.blockOven + "_front_off_baked");
+		blockIconFrontOffEmpty = register.registerIcon(ModInfo.modId + ":"
+				+ BlockNames.blockOven + "_front_off_empty");
 		
-		blockIconTop = register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_top");
-		blockIconSide = register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_side");
+		blockIconTop = register.registerIcon(ModInfo.modId + ":"
+				+ BlockNames.blockOven + "_top");
+		blockIconSide = register.registerIcon(ModInfo.modId + ":"
+				+ BlockNames.blockOven + "_side");
 	}
 	
 	/**
@@ -80,10 +89,12 @@ public class BlockOven extends BlockContainer {
 		} else if (side == 0 || side == 1) {
 			return blockIconTop;
 		} else if (sideMeta == side) {
-			if(burning){
-				return hasItem ? (isItemBaked ? blockIconFrontOnBaked : blockIconFrontOnUnbaked) : blockIconFrontOnEmpty;
-			}else{
-				return hasItem ? (isItemBaked ? blockIconFrontOffBaked : blockIconFrontOffUnbaked) : blockIconFrontOffEmpty;
+			if (burning) {
+				return hasItem ? (isItemBaked ? blockIconFrontOnBaked
+						: blockIconFrontOnUnbaked) : blockIconFrontOnEmpty;
+			} else {
+				return hasItem ? (isItemBaked ? blockIconFrontOffBaked
+						: blockIconFrontOffUnbaked) : blockIconFrontOffEmpty;
 			}
 		} else {
 			return blockIconSide;
@@ -94,9 +105,11 @@ public class BlockOven extends BlockContainer {
 	 * Set block orientation according to player's face
 	 */
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityliving, ItemStack itemStack) {
+	public void onBlockPlacedBy(World world, int x, int y, int z,
+			EntityLivingBase entityliving, ItemStack itemStack) {
 		byte direction = 0;
-		int facing = MathHelper.floor_double((entityliving.rotationYaw * 4F) / 360F + 0.5D) & 3;
+		int facing = MathHelper
+				.floor_double((entityliving.rotationYaw * 4F) / 360F + 0.5D) & 3;
 		
 		if (facing == 0) {
 			direction = 2;
@@ -111,7 +124,7 @@ public class BlockOven extends BlockContainer {
 			direction = 4;
 		}
 		
-		world.setBlockMetadataWithNotify(x, y, z, getMetadata(false, false, direction - 2), 2);
+		setMetadata(world, x, y, z, getMetadata(false, false, direction - 2));
 	}
 	
 	public Item getItemDropped(World world, int x, int y, int z) {
@@ -128,13 +141,15 @@ public class BlockOven extends BlockContainer {
 		return new TileEntityOven();
 	}
 	
-	public static void updateBlockState(boolean burning, World world, int x, int y, int z) {
+	public static void updateBlockState(boolean burning, World world, int x,
+			int y, int z) {
 		// TODO auto generated method stub
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World world, int x, int y, int z, Random random) {
+	public void randomDisplayTick(World world, int x, int y, int z,
+			Random random) {
 		
 		if (burning) {
 			int l = getDirection(world.getBlockMetadata(x, y, z));
@@ -145,100 +160,149 @@ public class BlockOven extends BlockContainer {
 			float f4 = random.nextFloat() * 0.6F - 0.3F;
 			
 			if (l == 4) {
-				world.spawnParticle("smoke", f - f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
-				world.spawnParticle("flame", f - f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
+				world.spawnParticle("smoke", f - f3, f1, f2 + f4, 0.0D, 0.0D,
+						0.0D);
+				world.spawnParticle("flame", f - f3, f1, f2 + f4, 0.0D, 0.0D,
+						0.0D);
 			} else if (l == 5) {
-				world.spawnParticle("smoke", f + f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
-				world.spawnParticle("flame", f + f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
+				world.spawnParticle("smoke", f + f3, f1, f2 + f4, 0.0D, 0.0D,
+						0.0D);
+				world.spawnParticle("flame", f + f3, f1, f2 + f4, 0.0D, 0.0D,
+						0.0D);
 			} else if (l == 2) {
-				world.spawnParticle("smoke", f + f4, f1, f2 - f3, 0.0D, 0.0D, 0.0D);
-				world.spawnParticle("flame", f + f4, f1, f2 - f3, 0.0D, 0.0D, 0.0D);
+				world.spawnParticle("smoke", f + f4, f1, f2 - f3, 0.0D, 0.0D,
+						0.0D);
+				world.spawnParticle("flame", f + f4, f1, f2 - f3, 0.0D, 0.0D,
+						0.0D);
 			} else if (l == 3) {
-				world.spawnParticle("smoke", f + f4, f1, f2 + f3, 0.0D, 0.0D, 0.0D);
-				world.spawnParticle("flame", f + f4, f1, f2 + f3, 0.0D, 0.0D, 0.0D);
+				world.spawnParticle("smoke", f + f4, f1, f2 + f3, 0.0D, 0.0D,
+						0.0D);
+				world.spawnParticle("flame", f + f4, f1, f2 + f3, 0.0D, 0.0D,
+						0.0D);
 			}
 		}
 		
 	}
-
+	
 	@Override
 	public TileEntity createNewTileEntity(World var1, int var2) {
 		return new TileEntityOven();
 	}
 	
-	public boolean getHasItem(int metadata){
+	public boolean getHasItem(int metadata) {
 		return metadata < 4 ? false : true;
 	}
 	
-	public boolean getIsItemBurned(int metadata){
+	public boolean getIsItemBurned(int metadata) {
 		return metadata > 7 ? true : false;
 	}
 	
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float par1, float par2, float par3){
-		TileEntityOven tileEntity = (TileEntityOven) world.getTileEntity(x, y, z);
-		int metadata = tileEntity.blockMetadata;
+	public boolean onBlockActivated(World world, int x, int y, int z,
+			EntityPlayer player, int side, float par1, float par2, float par3) {
+		TileEntityOven tileEntity = (TileEntityOven) world.getTileEntity(x, y,
+				z);
+		int metadata = world.getBlockMetadata(x, y, z);
 		int direction = getDirection(metadata);
 		
 		ItemStack playerItem = player.getCurrentEquippedItem();
 		
-		if(tileEntity == null || player.isSneaking() || !tileEntity.isUseableByPlayer(player)) return false;
+		if (tileEntity == null || player.isSneaking()
+				|| !tileEntity.isUseableByPlayer(player))
+			return false;
 		
-		if(playerItem != null && side == direction){
-			if(player.getHeldItem().getItem() instanceof ItemUnbakedPizza){
-				if(world.isRemote){
+		if (playerItem != null && side == direction) {
+			if (player.getHeldItem().getItem() instanceof ItemUnbakedPizza) {
+				if (world.isRemote) {
 					world.markBlockForUpdate(x, y, z);
-				}else{
-					boolean success = tileEntity.insertPizza(player.getHeldItem());
+				} else {
+					boolean success = tileEntity.insertPizza(player
+							.getHeldItem());
 					
-					if(success){
-						player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+					if (success) {
+						player.inventory.setInventorySlotContents(
+								player.inventory.currentItem, null);
+						System.out.println("Old metadata: " + metadata);
+						System.out.println("New metadata: "
+								+ getMetadata(true, false,
+										getMetaDirection(metadata)));
+						setMetadata(world, x, y, z, getMetadata(true, false,
+								getMetaDirection(metadata)));
 					}
 				}
-			}else if(TileEntityOven.isItemFuel(player.getHeldItem())){
-				if(world.isRemote){
+			} else if (TileEntityOven.isItemFuel(player.getHeldItem())) {
+				if (world.isRemote) {
 					
 					world.markBlockForUpdate(x, y, z);
 					
-				}else{
-					boolean success = tileEntity.insertFuel(player.getHeldItem());
+				} else {
+					boolean success = tileEntity.insertFuel(player
+							.getHeldItem());
 					
-					if(success){
-						player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+					if (success) {
+						player.inventory.setInventorySlotContents(
+								player.inventory.currentItem, null);
 					}
 				}
 			}
-		}else if(side == 1){
-			if(world.isRemote){
+		} else if (side == direction && playerItem == null) {
+			if (tileEntity.getHasPizza()) {
+				player.inventory.setInventorySlotContents(
+						player.inventory.currentItem, tileEntity.removePizza());
+				setMetadata(world, x, y, z, getMetadata(false, false,
+						getMetaDirection(metadata)));
+			}
+		} else if (side == 1) {
+			if (world.isRemote) {
 				world.markBlockForUpdate(x, y, z);
-			}else{
-				player.addChatMessage(IChatComponent.Serializer.func_150699_a("Test!" + world.isRemote));
+			} else {
+				player.addChatMessage(IChatComponent.Serializer
+						.func_150699_a("Test!" + world.isRemote));
 				System.out.println("Trying to access crafting interface");
 			}
 		}
 		
-		
-		
 		return true;
 	}
 	
-	public int getDirection(int metadata){
-		switch(metadata) {
-			case 0: case 4: case 8:
+	public int getDirection(int metadata) {
+		return getMetaDirection(metadata) + 2;
+	}
+	
+	public int getMetaDirection(int metadata) {
+		switch (metadata) {
+			case 0:
+			case 4:
+			case 8:
+			case 12:
+				return 0;
+			case 1:
+			case 5:
+			case 9:
+			case 13:
+				return 1;
+			case 2:
+			case 6:
+			case 10:
+			case 14:
 				return 2;
-			case 1: case 5: case 9:
+			case 3:
+			case 7:
+			case 11:
+			case 15:
 				return 3;
-			case 2: case 6: case 10:
-				return 4;
-			case 3: case 7: case 11:
-				return 5;
 			default:
-				return 5;
+				return 3;
 		}
 	}
 	
-	public int getMetadata(boolean hasItem, boolean isItemBaked, int direction){
-		return hasItem ? (!isItemBaked ? direction + 4 : direction + 8) : direction;
+	public int getMetadata(boolean hasItem, boolean isItemBaked, int direction) {
+		return hasItem ? (!isItemBaked ? direction + 4 : direction + 8)
+				: direction;
+	}
+	
+	public void setMetadata(World world, int x, int y, int z, int metadata) {
+		world.setBlockMetadataWithNotify(x, y, z, metadata, 2);
 	}
 	
 }
