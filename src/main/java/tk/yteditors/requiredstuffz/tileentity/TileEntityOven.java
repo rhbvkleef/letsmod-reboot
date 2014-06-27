@@ -17,19 +17,21 @@ import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.Constants;
 
 public class TileEntityOven extends TileEntity implements ISidedInventory {
-	private int burnTime = 0;
-	private int currentBurnTime = 0;
-	private int cookTime = 0;
-	private ItemStack[] itemStacks = new ItemStack[2];
-
-	private static final int[] slotsTop = new int[] { 0 };
-	private static final int[] slotsBottom = new int[] { 1 };
-	private static final int[] slotsSides = new int[] { 1 };
+	private int					burnTime		= 0;
+	private int					currentBurnTime	= 0;
+	private int					cookTime		= 0;
+	private ItemStack[]			itemStacks		= new ItemStack[2];
+	
+	private static final int[]	slotsTop		= new int[] { 0 };
+	private static final int[]	slotsBottom		= new int[] { 1 };
+	private static final int[]	slotsSides		= new int[] { 1 };
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbtCompound) {
+		System.out.println("Saving NBT!");
 		super.writeToNBT(nbtCompound);
 		
 		nbtCompound.setInteger("burnTime", burnTime);
@@ -37,78 +39,81 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 		nbtCompound.setInteger("cookTime", cookTime);
 		
 		NBTTagList nbttaglist = new NBTTagList();
-
+		
 		for (int i = 0; i < this.itemStacks.length; ++i) {
 			if (this.itemStacks[i] != null) {
-				NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-				nbttagcompound1.setByte("slot", (byte) i);
-				this.itemStacks[i].writeToNBT(nbttagcompound1);
-				nbttaglist.appendTag(nbttagcompound1);
+				NBTTagCompound tag = new NBTTagCompound();
+				tag.setByte("slot", (byte) i);
+				itemStacks[i].writeToNBT(tag);
+				nbttaglist.appendTag(tag);
 			}
 		}
-
+		
 		nbtCompound.setTag("Items", nbttaglist);
 	}
-
+	
 	@Override
 	public void readFromNBT(NBTTagCompound nbtCompound) {
 		super.readFromNBT(nbtCompound);
-		NBTTagList nbttaglist = nbtCompound.getTagList("Items", 10);
-		this.itemStacks = new ItemStack[this.getSizeInventory()];
-
+		NBTTagList nbttaglist = nbtCompound.getTagList("Items",
+				Constants.NBT.TAG_COMPOUND);
+		itemStacks = new ItemStack[getSizeInventory()];
+		
+		System.out.println("TagList length: " + nbttaglist.tagCount());
+		
 		for (int i = 0; i < nbttaglist.tagCount(); ++i) {
 			NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
 			byte slot = nbttagcompound1.getByte("slot");
-
-			if (slot >= 0 && slot < this.itemStacks.length) {
-				this.itemStacks[slot] = ItemStack
+			
+			if (slot >= 0 && slot < itemStacks.length) {
+				itemStacks[slot] = ItemStack
 						.loadItemStackFromNBT(nbttagcompound1);
 			}
 		}
-
+		
 		burnTime = nbtCompound.getInteger("BurnTime");
 		currentBurnTime = nbtCompound.getInteger("currentBurnTime");
 		cookTime = nbtCompound.getInteger("CookTime");
 	}
 	
 	@Override
-	public void updateEntity(){
+	public void updateEntity() {
 		super.updateEntity();
 	}
 	
 	@Override
 	public int getSizeInventory() {
-		return this.itemStacks.length;
+		return itemStacks.length;
 	}
-
+	
 	@Override
 	public ItemStack getStackInSlot(int slot) {
 		return this.itemStacks[slot];
 	}
-
+	
 	@Override
 	public ItemStack decrStackSize(int slot, int count) {
 		if (this.itemStacks[slot] != null) {
 			ItemStack itemstack;
-
+			
 			if (this.itemStacks[slot].stackSize <= count) {
 				itemstack = itemStacks[slot];
 				itemStacks[slot] = null;
 				return itemstack;
 			} else {
 				itemstack = this.itemStacks[slot].splitStack(count);
-
+				
 				if (itemStacks[slot].stackSize == 0) {
 					itemStacks[slot] = null;
 				}
-
+				
 				return itemstack;
 			}
 		} else {
 			return null;
 		}
 	}
-
+	
 	@Override
 	public ItemStack getStackInSlotOnClosing(int slot) {
 		if (itemStacks[slot] != null) {
@@ -119,48 +124,46 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 			return null;
 		}
 	}
-
+	
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack parItemStack) {
 		this.itemStacks[slot] = parItemStack;
-
+		
 		if (parItemStack != null
 				&& parItemStack.stackSize > this.getInventoryStackLimit()) {
 			parItemStack.stackSize = this.getInventoryStackLimit();
 		}
 	}
-
+	
 	@Override
 	public String getInventoryName() {
 		return "tile.blockOven.name";
 	}
-
+	
 	@Override
 	public boolean hasCustomInventoryName() {
 		return false;
 	}
-
+	
 	@Override
 	public int getInventoryStackLimit() {
 		return 1;
 	}
-
+	
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
 		return this.worldObj.getTileEntity(this.xCoord, this.yCoord,
-				this.zCoord) != this ? false : player.getDistanceSq(
-				this.xCoord + 0.5D, this.yCoord + 0.5D,
-				this.zCoord + 0.5D) <= 64.0D;
+				this.zCoord) != this ? false
+				: player.getDistanceSq(this.xCoord + 0.5D, this.yCoord + 0.5D,
+						this.zCoord + 0.5D) <= 64.0D;
 	}
-
+	
 	@Override
-	public void openInventory() {
-	}
-
+	public void openInventory() {}
+	
 	@Override
-	public void closeInventory() {
-	}
-
+	public void closeInventory() {}
+	
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack item) {
 		if (slot == 1) {
@@ -169,49 +172,49 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 			return isItemUnbakedPizza(item);
 		}
 	}
-
+	
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
 		return side == 0 ? slotsBottom : (side == 1 ? slotsTop : slotsSides);
 	}
-
+	
 	@Override
 	public boolean canInsertItem(int slot, ItemStack item, int side) {
 		return this.isItemValidForSlot(slot, item);
 	}
-
+	
 	@Override
 	public boolean canExtractItem(int slot, ItemStack item, int side) {
 		return side != 0 || slot != 1 || item.getItem() == Items.bucket;
 	}
-
+	
 	public static boolean isItemFuel(ItemStack item) {
 		return getItemBurnTime(item) > 0;
 	}
-
+	
 	public static int getItemBurnTime(ItemStack item) {
 		if (item == null) {
 			return 0;
 		} else {
 			Item currentItem = item.getItem();
-
+			
 			if (currentItem instanceof ItemBlock
 					&& Block.getBlockFromItem(currentItem) != Blocks.air) {
 				Block block = Block.getBlockFromItem(currentItem);
-
+				
 				if (block == Blocks.wooden_slab) {
 					return 150;
 				}
-
+				
 				if (block.getMaterial() == Material.wood) {
 					return 300;
 				}
-
+				
 				if (block == Blocks.coal_block) {
 					return 16000;
 				}
 			}
-
+			
 			if (currentItem instanceof ItemTool
 					&& ((ItemTool) currentItem).getToolMaterialName().equals(
 							"WOOD"))
@@ -237,19 +240,19 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 			return GameRegistry.getFuelValue(item);
 		}
 	}
-
+	
 	public static boolean isItemUnbakedPizza(ItemStack item) {
 		return true;
 	}
 	
-	public boolean addItem(Item item){
-		if(item instanceof ItemUnbakedPizza){
-			if(itemStacks[0] != null){
+	public boolean addItem(Item item) {
+		if (item instanceof ItemUnbakedPizza) {
+			if (itemStacks[0] != null) {
 				itemStacks[0] = new ItemStack(item, 1);
 				return true;
 			}
-		}else if(isItemFuel(new ItemStack(item, 1))){
-			if(itemStacks[1] != null){
+		} else if (isItemFuel(new ItemStack(item, 1))) {
+			if (itemStacks[1] != null) {
 				itemStacks[1] = new ItemStack(item, 1);
 				return true;
 			}
@@ -257,11 +260,31 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 		return false;
 	}
 	
-	public boolean insertPizza(ItemStack item){
-		return false;
+	public boolean getHasPizza() {
+		return itemStacks[0] == null ? false
+				: (itemStacks[0].stackSize == 0 ? false : true);
 	}
 	
-	public boolean insertFuel(ItemStack item){
+	public boolean insertPizza(ItemStack item) {
+		if (itemStacks[0] == null || itemStacks[0].stackSize == 0) {
+			itemStacks[0] = item;
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public ItemStack removePizza() {
+		if (itemStacks[0] != null) {
+			ItemStack itemStack = itemStacks[0];
+			itemStacks[0] = null;
+			return itemStack;
+		} else {
+			return null;
+		}
+	}
+	
+	public boolean insertFuel(ItemStack item) {
 		return false;
 	}
 }
