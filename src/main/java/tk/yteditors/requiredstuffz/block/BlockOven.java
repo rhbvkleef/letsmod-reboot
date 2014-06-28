@@ -31,9 +31,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class BlockOven extends BlockContainer {
 	
 	@SideOnly(Side.CLIENT)
-	private IIcon			blockIconFrontOffEmpty, blockIconFrontOffUnbaked,
-			blockIconFrontOffBaked, blockIconFrontOnEmpty,
-			blockIconFrontOnUnbaked, blockIconFrontOnBaked, blockIconTop,
+	private IIcon			blockIconFrontEmpty, blockIconFrontUnbaked,
+			blockIconFrontBaked, blockIconTop,
 			blockIconSide;
 	
 	int						rotation;
@@ -56,19 +55,21 @@ public class BlockOven extends BlockContainer {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister register) {
-		
-		blockIconFrontOnUnbaked = register.registerIcon(ModInfo.modId + ":"
-				+ BlockNames.blockOven + "_front_on_unbaked");
-		blockIconFrontOnBaked = register.registerIcon(ModInfo.modId + ":"
-				+ BlockNames.blockOven + "_front_on_baked");
-		blockIconFrontOnEmpty = register.registerIcon(ModInfo.modId + ":"
-				+ BlockNames.blockOven + "_front_on_empty");
-		blockIconFrontOffUnbaked = register.registerIcon(ModInfo.modId + ":"
-				+ BlockNames.blockOven + "_front_off_unbaked");
-		blockIconFrontOffBaked = register.registerIcon(ModInfo.modId + ":"
-				+ BlockNames.blockOven + "_front_off_baked");
-		blockIconFrontOffEmpty = register.registerIcon(ModInfo.modId + ":"
-				+ BlockNames.blockOven + "_front_off_empty");
+		if(burning){
+			blockIconFrontUnbaked = register.registerIcon(ModInfo.modId + ":"
+					+ BlockNames.blockOven + "_front_on_unbaked");
+			blockIconFrontBaked = register.registerIcon(ModInfo.modId + ":"
+					+ BlockNames.blockOven + "_front_on_baked");
+			blockIconFrontEmpty = register.registerIcon(ModInfo.modId + ":"
+					+ BlockNames.blockOven + "_front_on_empty");
+		}else{
+			blockIconFrontUnbaked = register.registerIcon(ModInfo.modId + ":"
+					+ BlockNames.blockOven + "_front_off_unbaked");
+			blockIconFrontBaked = register.registerIcon(ModInfo.modId + ":"
+					+ BlockNames.blockOven + "_front_off_baked");
+			blockIconFrontEmpty = register.registerIcon(ModInfo.modId + ":"
+					+ BlockNames.blockOven + "_front_off_empty");
+		}
 		
 		blockIconTop = register.registerIcon(ModInfo.modId + ":"
 				+ BlockNames.blockOven + "_top");
@@ -87,17 +88,12 @@ public class BlockOven extends BlockContainer {
 		boolean isItemBaked = getIsItemBurned(metadata);
 		
 		if (metadata == 0 && side == 3) {
-			return burning ? blockIconFrontOnEmpty : blockIconFrontOffEmpty;
+			return blockIconFrontEmpty;
 		} else if (side == 0 || side == 1) {
 			return blockIconTop;
 		} else if (sideMeta == side) {
-			if (burning) {
-				return hasItem ? (isItemBaked ? blockIconFrontOnBaked
-						: blockIconFrontOnUnbaked) : blockIconFrontOnEmpty;
-			} else {
-				return hasItem ? (isItemBaked ? blockIconFrontOffBaked
-						: blockIconFrontOffUnbaked) : blockIconFrontOffEmpty;
-			}
+			return hasItem ? (isItemBaked ? blockIconFrontBaked
+					: blockIconFrontUnbaked) : blockIconFrontEmpty;
 		} else {
 			return blockIconSide;
 		}
@@ -150,8 +146,6 @@ public class BlockOven extends BlockContainer {
 		
 		IInventory inventory = (IInventory) tileEntity;
 		
-		System.out.println("Length inventory: " + inventory.getSizeInventory());
-		
 		for (int i = 0; i < inventory.getSizeInventory(); i++) {
 			ItemStack item = inventory.getStackInSlot(i);
 			
@@ -183,11 +177,6 @@ public class BlockOven extends BlockContainer {
 	@Override
 	public Item getItem(World world, int x, int y, int z) {
 		return Item.getItemFromBlock(RequiredStuffz.blockOvenOff);
-	}
-	
-	@Override
-	public TileEntity createTileEntity(World world, int metadata) {
-		return new TileEntityOven();
 	}
 	
 	public static void updateBlockState(boolean burning, World world, int x,
@@ -234,7 +223,17 @@ public class BlockOven extends BlockContainer {
 	}
 	
 	@Override
+	public boolean hasTileEntity(){
+		return true;
+	}
+	
+	@Override
 	public TileEntity createNewTileEntity(World var1, int var2) {
+		return new TileEntityOven();
+	}
+	
+	@Override
+	public TileEntity createTileEntity(World world, int metadata) {
 		return new TileEntityOven();
 	}
 	
