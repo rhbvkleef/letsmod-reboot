@@ -23,6 +23,7 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	private int					maxBurnTime		= 0;
 	private int					currentBurnTime	= 0;
 	private int					itemBurnTime	= 0;
+	private boolean				burning			= false;
 	private ItemStack[]			itemStacks		= new ItemStack[2];
 	
 	private static final int[]	slotsTop		= new int[] { 0 };
@@ -36,6 +37,7 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 		nbtCompound.setInteger("maxBurnTime", maxBurnTime);
 		nbtCompound.setInteger("currentBurnTime", currentBurnTime);
 		nbtCompound.setInteger("itemBurnTime", itemBurnTime);
+		nbtCompound.setBoolean("burning", burning);
 		
 		NBTTagList nbttaglist = new NBTTagList();
 		
@@ -69,11 +71,24 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 		maxBurnTime = nbtCompound.getInteger("maxBurnTime");
 		currentBurnTime = nbtCompound.getInteger("currentBurnTime");
 		itemBurnTime = nbtCompound.getInteger("itemBurnTime");
+		burning = nbtCompound.getBoolean("burning");
 	}
 	
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
+		
+		if(getHasItemInSlot(1)){
+			maxBurnTime += getItemBurnTime(itemStacks[1]);
+			System.out.println(maxBurnTime);
+			itemStacks[1] = null;
+		}
+		
+		if(getHasItemInSlot(1) && getHasItemInSlot(0)){
+			currentBurnTime++;
+		}else{
+			
+		}
 		
 	}
 	
@@ -228,7 +243,7 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	}
 	
 	public static boolean isItemUnbakedPizza(ItemStack item) {
-		return true;
+		return item.getItem() instanceof ItemUnbakedPizza;
 	}
 	
 	public boolean addItem(Item item) {
