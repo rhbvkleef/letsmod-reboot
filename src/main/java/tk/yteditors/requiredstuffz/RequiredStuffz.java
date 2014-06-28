@@ -46,18 +46,14 @@ public class RequiredStuffz {
 	
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent e) {
-		blockOvenOff = new BlockOven(false).setBlockName(BlockNames.blockOven
-				+ "Off");
-		blockOvenOn = new BlockOven(true).setBlockName(BlockNames.blockOven
-				+ "On");
+		blockOvenOff = new BlockOven(false).setBlockName(BlockNames.blockOven + "Off");
+		blockOvenOn = new BlockOven(true).setBlockName(BlockNames.blockOven + "On");
 		
 		RegisterHelper.registerBlock(blockOvenOff);
 		RegisterHelper.registerBlock(blockOvenOn);
 		
-		itemUnbakedPizza = new ItemUnbakedPizza()
-				.setUnlocalizedName(ItemNames.itemUnbakedPizza);
-		itemBakedPizza = new ItemBakedPizza()
-				.setUnlocalizedName(ItemNames.itemBakedPizza);
+		itemUnbakedPizza = new ItemUnbakedPizza().setUnlocalizedName(ItemNames.itemUnbakedPizza);
+		itemBakedPizza = new ItemBakedPizza().setUnlocalizedName(ItemNames.itemBakedPizza);
 		
 		RegisterHelper.registerItem(itemUnbakedPizza);
 		RegisterHelper.registerItem(itemBakedPizza);
@@ -73,13 +69,10 @@ public class RequiredStuffz {
 		itemUnbakedPizza.setCreativeTab(mainTab);
 		itemBakedPizza.setCreativeTab(mainTab);
 		
-		GameRegistry.addRecipe(new ItemStack(itemUnbakedPizza), "xxx", "x x",
-				"xxx", 'x', new ItemStack(Blocks.hay_block));
+		GameRegistry.addRecipe(new ItemStack(itemUnbakedPizza), "xxx", "x x", "xxx", 'x', new ItemStack(Blocks.hay_block));
 		
-		
-		//Registering tile entities
-		GameRegistry.registerTileEntity(TileEntityOven.class, ModInfo.modId
-				+ "TileEntityOven");
+		// Registering tile entities
+		GameRegistry.registerTileEntity(TileEntityOven.class, ModInfo.modId + "TileEntityOven");
 	}
 	
 	@Mod.EventHandler

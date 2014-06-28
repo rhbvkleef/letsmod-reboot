@@ -20,9 +20,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
 
 public class TileEntityOven extends TileEntity implements ISidedInventory {
-	private int					burnTime		= 0;
+	private int					maxBurnTime		= 0;
 	private int					currentBurnTime	= 0;
-	private int					cookTime		= 0;
+	private int					itemBurnTime	= 0;
 	private ItemStack[]			itemStacks		= new ItemStack[2];
 	
 	private static final int[]	slotsTop		= new int[] { 0 };
@@ -33,9 +33,9 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	public void writeToNBT(NBTTagCompound nbtCompound) {
 		super.writeToNBT(nbtCompound);
 		
-		nbtCompound.setInteger("burnTime", burnTime);
+		nbtCompound.setInteger("maxBurnTime", maxBurnTime);
 		nbtCompound.setInteger("currentBurnTime", currentBurnTime);
-		nbtCompound.setInteger("cookTime", cookTime);
+		nbtCompound.setInteger("itemBurnTime", itemBurnTime);
 		
 		NBTTagList nbttaglist = new NBTTagList();
 		
@@ -54,8 +54,7 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	@Override
 	public void readFromNBT(NBTTagCompound nbtCompound) {
 		super.readFromNBT(nbtCompound);
-		NBTTagList nbttaglist = nbtCompound.getTagList("Items",
-				Constants.NBT.TAG_COMPOUND);
+		NBTTagList nbttaglist = nbtCompound.getTagList("Items", Constants.NBT.TAG_COMPOUND);
 		itemStacks = new ItemStack[getSizeInventory()];
 		
 		for (int i = 0; i < nbttaglist.tagCount(); ++i) {
@@ -63,19 +62,19 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 			byte slot = nbttagcompound1.getByte("slot");
 			
 			if (slot >= 0 && slot < itemStacks.length) {
-				itemStacks[slot] = ItemStack
-						.loadItemStackFromNBT(nbttagcompound1);
+				itemStacks[slot] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
 			}
 		}
 		
-		burnTime = nbtCompound.getInteger("BurnTime");
+		maxBurnTime = nbtCompound.getInteger("maxBurnTime");
 		currentBurnTime = nbtCompound.getInteger("currentBurnTime");
-		cookTime = nbtCompound.getInteger("CookTime");
+		itemBurnTime = nbtCompound.getInteger("itemBurnTime");
 	}
 	
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
+		
 	}
 	
 	@Override
@@ -126,8 +125,7 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	public void setInventorySlotContents(int slot, ItemStack parItemStack) {
 		this.itemStacks[slot] = parItemStack;
 		
-		if (parItemStack != null
-				&& parItemStack.stackSize > this.getInventoryStackLimit()) {
+		if (parItemStack != null && parItemStack.stackSize > this.getInventoryStackLimit()) {
 			parItemStack.stackSize = this.getInventoryStackLimit();
 		}
 	}
@@ -149,10 +147,8 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
-		return this.worldObj.getTileEntity(this.xCoord, this.yCoord,
-				this.zCoord) != this ? false
-				: player.getDistanceSq(this.xCoord + 0.5D, this.yCoord + 0.5D,
-						this.zCoord + 0.5D) <= 64.0D;
+		return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : player.getDistanceSq(this.xCoord + 0.5D,
+				this.yCoord + 0.5D, this.zCoord + 0.5D) <= 64.0D;
 	}
 	
 	@Override
@@ -195,8 +191,7 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 		} else {
 			Item currentItem = item.getItem();
 			
-			if (currentItem instanceof ItemBlock
-					&& Block.getBlockFromItem(currentItem) != Blocks.air) {
+			if (currentItem instanceof ItemBlock && Block.getBlockFromItem(currentItem) != Blocks.air) {
 				Block block = Block.getBlockFromItem(currentItem);
 				
 				if (block == Blocks.wooden_slab) {
@@ -212,17 +207,11 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 				}
 			}
 			
-			if (currentItem instanceof ItemTool
-					&& ((ItemTool) currentItem).getToolMaterialName().equals(
-							"WOOD"))
+			if (currentItem instanceof ItemTool && ((ItemTool) currentItem).getToolMaterialName().equals("WOOD"))
 				return 200;
-			if (currentItem instanceof ItemSword
-					&& ((ItemSword) currentItem).getToolMaterialName().equals(
-							"WOOD"))
+			if (currentItem instanceof ItemSword && ((ItemSword) currentItem).getToolMaterialName().equals("WOOD"))
 				return 200;
-			if (currentItem instanceof ItemHoe
-					&& ((ItemHoe) currentItem).getToolMaterialName().equals(
-							"WOOD"))
+			if (currentItem instanceof ItemHoe && ((ItemHoe) currentItem).getToolMaterialName().equals("WOOD"))
 				return 200;
 			if (currentItem == Items.stick)
 				return 100;
@@ -257,9 +246,8 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 		return false;
 	}
 	
-	public boolean getHasPizza() {
-		return itemStacks[0] == null ? false
-				: (itemStacks[0].stackSize == 0 ? false : true);
+	public boolean getHasItemInSlot(int slot) {
+		return itemStacks[slot] == null ? false : (itemStacks[slot].stackSize == 0 ? false : true);
 	}
 	
 	public boolean insertPizza(ItemStack item) {
@@ -282,10 +270,10 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	}
 	
 	public boolean insertFuel(ItemStack item) {
-		if(itemStacks[1] == null || itemStacks[1].stackSize == 0){
+		if (itemStacks[1] == null || itemStacks[1].stackSize == 0) {
 			itemStacks[1] = item;
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}

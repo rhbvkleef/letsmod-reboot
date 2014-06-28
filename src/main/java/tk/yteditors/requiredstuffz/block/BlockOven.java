@@ -31,9 +31,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class BlockOven extends BlockContainer {
 	
 	@SideOnly(Side.CLIENT)
-	private IIcon			blockIconFrontEmpty, blockIconFrontUnbaked,
-			blockIconFrontBaked, blockIconTop,
-			blockIconSide;
+	private IIcon			blockIconFrontEmpty, blockIconFrontUnbaked, blockIconFrontBaked, blockIconTop, blockIconSide;
 	
 	int						rotation;
 	
@@ -55,26 +53,18 @@ public class BlockOven extends BlockContainer {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister register) {
-		if(burning){
-			blockIconFrontUnbaked = register.registerIcon(ModInfo.modId + ":"
-					+ BlockNames.blockOven + "_front_on_unbaked");
-			blockIconFrontBaked = register.registerIcon(ModInfo.modId + ":"
-					+ BlockNames.blockOven + "_front_on_baked");
-			blockIconFrontEmpty = register.registerIcon(ModInfo.modId + ":"
-					+ BlockNames.blockOven + "_front_on_empty");
-		}else{
-			blockIconFrontUnbaked = register.registerIcon(ModInfo.modId + ":"
-					+ BlockNames.blockOven + "_front_off_unbaked");
-			blockIconFrontBaked = register.registerIcon(ModInfo.modId + ":"
-					+ BlockNames.blockOven + "_front_off_baked");
-			blockIconFrontEmpty = register.registerIcon(ModInfo.modId + ":"
-					+ BlockNames.blockOven + "_front_off_empty");
+		if (burning) {
+			blockIconFrontUnbaked = register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_front_on_unbaked");
+			blockIconFrontBaked = register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_front_on_baked");
+			blockIconFrontEmpty = register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_front_on_empty");
+		} else {
+			blockIconFrontUnbaked = register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_front_off_unbaked");
+			blockIconFrontBaked = register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_front_off_baked");
+			blockIconFrontEmpty = register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_front_off_empty");
 		}
 		
-		blockIconTop = register.registerIcon(ModInfo.modId + ":"
-				+ BlockNames.blockOven + "_top");
-		blockIconSide = register.registerIcon(ModInfo.modId + ":"
-				+ BlockNames.blockOven + "_side");
+		blockIconTop = register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_top");
+		blockIconSide = register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_side");
 	}
 	
 	/**
@@ -92,8 +82,7 @@ public class BlockOven extends BlockContainer {
 		} else if (side == 0 || side == 1) {
 			return blockIconTop;
 		} else if (sideMeta == side) {
-			return hasItem ? (isItemBaked ? blockIconFrontBaked
-					: blockIconFrontUnbaked) : blockIconFrontEmpty;
+			return hasItem ? (isItemBaked ? blockIconFrontBaked : blockIconFrontUnbaked) : blockIconFrontEmpty;
 		} else {
 			return blockIconSide;
 		}
@@ -103,11 +92,9 @@ public class BlockOven extends BlockContainer {
 	 * Set block orientation according to player's face
 	 */
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z,
-			EntityLivingBase entityliving, ItemStack itemStack) {
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityliving, ItemStack itemStack) {
 		byte direction = 0;
-		int facing = MathHelper
-				.floor_double((entityliving.rotationYaw * 4F) / 360F + 0.5D) & 3;
+		int facing = MathHelper.floor_double((entityliving.rotationYaw * 4F) / 360F + 0.5D) & 3;
 		
 		if (facing == 0) {
 			direction = 2;
@@ -131,8 +118,8 @@ public class BlockOven extends BlockContainer {
 	
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block par5, int par6) {
-		super.breakBlock(world, x, y, z, par5, par6);
 		dropItems(world, x, y, z);
+		super.breakBlock(world, x, y, z, par5, par6);
 	}
 	
 	private void dropItems(World world, int x, int y, int z) {
@@ -149,19 +136,15 @@ public class BlockOven extends BlockContainer {
 		for (int i = 0; i < inventory.getSizeInventory(); i++) {
 			ItemStack item = inventory.getStackInSlot(i);
 			
-			System.out.println(item.getDisplayName());
-			
 			if (item != null && item.stackSize > 0) {
 				float rx = rand.nextFloat() * 0.8F + 0.1F;
 				float ry = rand.nextFloat() * 0.8F + 0.1F;
 				float rz = rand.nextFloat() * 0.8F + 0.1F;
-				EntityItem entityItem = new EntityItem(world, x + rx, y + ry, z
-						+ rz, new ItemStack(item.getItem(), item.stackSize,
-						item.getItemDamage()));
+				EntityItem entityItem = new EntityItem(world, x + rx, y + ry, z + rz, new ItemStack(item.getItem(), item.stackSize, item
+						.getItemDamage()));
 				
 				if (item.hasTagCompound()) {
-					entityItem.getEntityItem().setTagCompound(
-							(NBTTagCompound) item.getTagCompound().copy());
+					entityItem.getEntityItem().setTagCompound((NBTTagCompound) item.getTagCompound().copy());
 				}
 				
 				float factor = 0.05F;
@@ -179,15 +162,13 @@ public class BlockOven extends BlockContainer {
 		return Item.getItemFromBlock(RequiredStuffz.blockOvenOff);
 	}
 	
-	public static void updateBlockState(boolean burning, World world, int x,
-			int y, int z) {
+	public static void updateBlockState(boolean burning, World world, int x, int y, int z) {
 		// TODO auto generated method stub
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World world, int x, int y, int z,
-			Random random) {
+	public void randomDisplayTick(World world, int x, int y, int z, Random random) {
 		
 		if (burning) {
 			int l = getDirection(world.getBlockMetadata(x, y, z));
@@ -198,32 +179,24 @@ public class BlockOven extends BlockContainer {
 			float f4 = random.nextFloat() * 0.6F - 0.3F;
 			
 			if (l == 4) {
-				world.spawnParticle("smoke", f - f3, f1, f2 + f4, 0.0D, 0.0D,
-						0.0D);
-				world.spawnParticle("flame", f - f3, f1, f2 + f4, 0.0D, 0.0D,
-						0.0D);
+				world.spawnParticle("smoke", f - f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
+				world.spawnParticle("flame", f - f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
 			} else if (l == 5) {
-				world.spawnParticle("smoke", f + f3, f1, f2 + f4, 0.0D, 0.0D,
-						0.0D);
-				world.spawnParticle("flame", f + f3, f1, f2 + f4, 0.0D, 0.0D,
-						0.0D);
+				world.spawnParticle("smoke", f + f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
+				world.spawnParticle("flame", f + f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
 			} else if (l == 2) {
-				world.spawnParticle("smoke", f + f4, f1, f2 - f3, 0.0D, 0.0D,
-						0.0D);
-				world.spawnParticle("flame", f + f4, f1, f2 - f3, 0.0D, 0.0D,
-						0.0D);
+				world.spawnParticle("smoke", f + f4, f1, f2 - f3, 0.0D, 0.0D, 0.0D);
+				world.spawnParticle("flame", f + f4, f1, f2 - f3, 0.0D, 0.0D, 0.0D);
 			} else if (l == 3) {
-				world.spawnParticle("smoke", f + f4, f1, f2 + f3, 0.0D, 0.0D,
-						0.0D);
-				world.spawnParticle("flame", f + f4, f1, f2 + f3, 0.0D, 0.0D,
-						0.0D);
+				world.spawnParticle("smoke", f + f4, f1, f2 + f3, 0.0D, 0.0D, 0.0D);
+				world.spawnParticle("flame", f + f4, f1, f2 + f3, 0.0D, 0.0D, 0.0D);
 			}
 		}
 		
 	}
 	
 	@Override
-	public boolean hasTileEntity(){
+	public boolean hasTileEntity() {
 		return true;
 	}
 	
@@ -237,86 +210,64 @@ public class BlockOven extends BlockContainer {
 		return new TileEntityOven();
 	}
 	
-	public boolean getHasItem(int metadata) {
-		return metadata < 4 ? false : true;
-	}
-	
-	public boolean getIsItemBurned(int metadata) {
-		return metadata > 7 ? true : false;
-	}
-	
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z,
-			EntityPlayer player, int side, float par1, float par2, float par3) {
-		TileEntityOven tileEntity = (TileEntityOven) world.getTileEntity(x, y,
-				z);
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float par1, float par2, float par3) {
+		
+		TileEntityOven tileEntity = (TileEntityOven) world.getTileEntity(x, y, z);
 		int metadata = world.getBlockMetadata(x, y, z);
 		int direction = getDirection(metadata);
-		
 		ItemStack playerItem = player.getCurrentEquippedItem();
 		
-		if (tileEntity == null || player.isSneaking()
-				|| !tileEntity.isUseableByPlayer(player))
+		if (tileEntity == null || player.isSneaking() || !tileEntity.isUseableByPlayer(player)) {
 			return false;
+		}
 		
-		if (playerItem != null && side == direction) {
+		if (world.isRemote) {
+			world.markBlockForUpdate(x, y, z);
+			return true;
+		}
+		
+		if (playerItem != null && playerItem.stackSize > 0 && side == direction) {
+			
+			// Player clicked on front side of furnace with an item
 			if (player.getHeldItem().getItem() instanceof ItemUnbakedPizza) {
-				if (world.isRemote) {
-					world.markBlockForUpdate(x, y, z);
-				} else {
-					boolean success = tileEntity.insertPizza(player
-							.getHeldItem());
-					
-					if (success) {
-						player.inventory.setInventorySlotContents(
-								player.inventory.currentItem, null);
-						setMetadata(world, x, y, z, getMetadata(true, false,
-								getMetaDirection(metadata)));
-					}
+				boolean success = tileEntity.insertPizza(player.getHeldItem());
+				
+				if (success) {
+					player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+					setMetadata(world, x, y, z, getMetadata(true, false, getMetaDirection(metadata)));
 				}
 			} else if (TileEntityOven.isItemFuel(player.getHeldItem())) {
-				if (world.isRemote) {
-					
-					world.markBlockForUpdate(x, y, z);
-					
-				} else {
-					boolean success = tileEntity.insertFuel(player
-							.getHeldItem());
-					
-					if (success) {
-						ItemStack current = player.inventory
-								.getStackInSlot(player.inventory.currentItem);
-						if (current.stackSize == 1) {
-							player.inventory.setInventorySlotContents(
-									player.inventory.currentItem, null);
-						} else {
-							player.inventory.setInventorySlotContents(
-									player.inventory.currentItem,
-									new ItemStack(current.getItem(),
-											current.stackSize - 1));
-						}
+				boolean success = tileEntity.insertFuel(new ItemStack(player.getHeldItem().getItem(), 1));
+				
+				if (success) {
+					ItemStack current = player.inventory.getStackInSlot(player.inventory.currentItem);
+					if (current.stackSize == 1) {
+						player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+					} else {
+						player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(current.getItem(),
+								current.stackSize - 1));
 					}
 				}
 			}
-		} else if (side == direction && playerItem == null) {
-			if (tileEntity.getHasPizza()) {
-				player.inventory.setInventorySlotContents(
-						player.inventory.currentItem, tileEntity.removePizza());
-				setMetadata(world, x, y, z, getMetadata(false, false,
-						getMetaDirection(metadata)));
+		} else if (side == direction && (playerItem == null || playerItem.stackSize == 0)) {
+			
+			// Player clicked on furnace without an item
+			if (tileEntity.getHasItemInSlot(0)) {
+				
+				player.inventory.setInventorySlotContents(player.inventory.currentItem, tileEntity.removePizza());
+				setMetadata(world, x, y, z, getMetadata(false, false, getMetaDirection(metadata)));
 			}
 		} else if (side == 1) {
-			if (world.isRemote) {
-				world.markBlockForUpdate(x, y, z);
-			} else {
-				player.addChatMessage(IChatComponent.Serializer
-						.func_150699_a("This feature is not yet implemented!"));
-			}
+			
+			// Player clicked on the top of the furnace
+			player.addChatMessage(IChatComponent.Serializer.func_150699_a("This feature is not yet implemented!"));
 		}
 		
 		return true;
 	}
 	
+	// Functions for getting and setting metadata
 	public int getDirection(int metadata) {
 		return getMetaDirection(metadata) + 2;
 	}
@@ -349,12 +300,19 @@ public class BlockOven extends BlockContainer {
 	}
 	
 	public int getMetadata(boolean hasItem, boolean isItemBaked, int direction) {
-		return hasItem ? (!isItemBaked ? direction + 4 : direction + 8)
-				: direction;
+		return hasItem ? (!isItemBaked ? direction + 4 : direction + 8) : direction;
 	}
 	
 	public void setMetadata(World world, int x, int y, int z, int metadata) {
 		world.setBlockMetadataWithNotify(x, y, z, metadata, 2);
+	}
+	
+	public boolean getHasItem(int metadata) {
+		return metadata < 4 ? false : true;
+	}
+	
+	public boolean getIsItemBurned(int metadata) {
+		return metadata > 7 ? true : false;
 	}
 	
 }
