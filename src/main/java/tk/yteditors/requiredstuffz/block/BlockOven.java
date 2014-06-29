@@ -133,7 +133,6 @@ public class BlockOven extends BlockContainer {
 		TileEntity tileEntity = world.getTileEntity(x, y, z);
 		
 		if (!(tileEntity instanceof IInventory)) {
-			System.out.println("Tile entity not instanceof IInventory");
 			return;
 		}
 		
@@ -168,10 +167,6 @@ public class BlockOven extends BlockContainer {
 		return Item.getItemFromBlock(RequiredStuffz.blockOvenOff);
 	}
 	
-	public static void updateBlockState(boolean burning, World world, int x, int y, int z) {
-		// TODO auto generated method stub
-	}
-	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random random) {
@@ -198,6 +193,8 @@ public class BlockOven extends BlockContainer {
 				world.spawnParticle("flame", f + f4, f1, f2 + f3, 0.0D, 0.0D, 0.0D);
 			}
 		}
+		
+		if(world.getTileEntity(x, y, z).isInvalid()) System.out.println("It's null!");
 		
 	}
 	
