@@ -41,7 +41,7 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	
 	private static final int[]	slotsTop		= new int[] { slotPizza };
 	private static final int[]	slotsBottom		= new int[] { slotFuel };
-	private static final int[]	slotsSides		= new int[] { slotPizza };
+	private static final int[]	slotsSides		= new int[] { slotPizza, slotFuel };
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbtCompound) {
@@ -86,8 +86,17 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	}
 	
 	@Override
+	public boolean canUpdate(){
+		return true;
+	}
+	
+	@Override
 	public void updateEntity() {
 		super.updateEntity();
+		
+		if(!worldObj.isRemote){
+			compareMetaToTile();
+		}else worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		
 		if (getHasItemInSlot(slotFuel)) {
 			maxBurnTime += getItemBurnTime(itemStacks[slotFuel]);
@@ -106,8 +115,6 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 			}
 			itemStacks[slotFuel] = null;
 		}
-		
-		compareMetaToTile();
 		
 		if (maxBurnTime >= -1 && ((getHasItemInSlot(slotPizza) && itemStacks[slotPizza].getItem() instanceof ItemUnbakedPizza) || burning)) {
 			--maxBurnTime;
@@ -144,7 +151,6 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 		} else if (burning) {
 			--maxBurnTime;
 		}
-		
 	}
 	
 	@Override
@@ -248,7 +254,7 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	
 	@Override
 	public boolean canExtractItem(int slot, ItemStack item, int side) {
-		return side != 0 || slot != 1 || item.getItem() == Items.bucket;
+		return side != 0 || slot != slotFuel;
 	}
 	
 	public static boolean isItemFuel(ItemStack item) {
@@ -341,7 +347,7 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	}
 	
 	public boolean insertFuel(ItemStack item) {
-		if (itemStacks[slotFuel] == null || itemStacks[slotFuel].stackSize == 0) {
+		if (!getHasItemInSlot(slotFuel)) {
 			itemStacks[slotFuel] = item;
 			return true;
 		} else {
@@ -357,9 +363,6 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 		
 		if(metadata != intendedMetadata){
 			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, intendedMetadata, 2);
-			System.out.println("Old meta: " + metadata + ", new meta: " + intendedMetadata + ", burnTime: " + maxBurnTime);
-			Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			System.out.println(gson.toJson(itemStacks));
 		}
 	}
 }
