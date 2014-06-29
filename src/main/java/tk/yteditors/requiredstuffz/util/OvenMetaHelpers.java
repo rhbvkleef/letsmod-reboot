@@ -35,7 +35,7 @@ public class OvenMetaHelpers {
 	}
 	
 	public static int getMetadata(boolean hasItem, boolean isItemBaked, int direction) {
-		return hasItem ? (!isItemBaked ? direction + 4 : direction + 8) : direction;
+		return (hasItem ? (!isItemBaked ? direction + 4 : direction + 8) : direction) + 4;
 	}
 	
 	public static void setMetadata(World world, int x, int y, int z, int metadata) {
@@ -43,10 +43,10 @@ public class OvenMetaHelpers {
 	}
 	
 	public static boolean getHasItem(int metadata) {
-		return metadata < 4 ? false : true;
+		return metadata < 8 ? false : true;
 	}
 	
 	public static boolean getIsItemBurned(int metadata) {
-		return metadata > 7 ? true : false;
+		return metadata > 11 ? true : false;
 	}
 }

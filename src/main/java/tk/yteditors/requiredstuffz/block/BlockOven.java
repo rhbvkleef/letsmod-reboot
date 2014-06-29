@@ -30,6 +30,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockOven extends BlockContainer {
 	
+	// Cheatsheet shortcut :)
+	// BlockFurnace
+	
 	@SideOnly(Side.CLIENT)
 	private IIcon			blockIconFrontEmpty, blockIconFrontUnbaked, blockIconFrontBaked, blockIconTop, blockIconSide;
 	
@@ -56,17 +59,17 @@ public class BlockOven extends BlockContainer {
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister register) {
 		if (burning) {
-			blockIconFrontUnbaked = register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_front_on_unbaked");
-			blockIconFrontBaked = register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_front_on_baked");
-			blockIconFrontEmpty = register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_front_on_empty");
+			blockIconFrontUnbaked = register.registerIcon(ModInfo.MOD_ID + ":" + BlockNames.blockOven + "_front_on_unbaked");
+			blockIconFrontBaked = register.registerIcon(ModInfo.MOD_ID + ":" + BlockNames.blockOven + "_front_on_baked");
+			blockIconFrontEmpty = register.registerIcon(ModInfo.MOD_ID + ":" + BlockNames.blockOven + "_front_on_empty");
 		} else {
-			blockIconFrontUnbaked = register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_front_off_unbaked");
-			blockIconFrontBaked = register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_front_off_baked");
-			blockIconFrontEmpty = register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_front_off_empty");
+			blockIconFrontUnbaked = register.registerIcon(ModInfo.MOD_ID + ":" + BlockNames.blockOven + "_front_off_unbaked");
+			blockIconFrontBaked = register.registerIcon(ModInfo.MOD_ID + ":" + BlockNames.blockOven + "_front_off_baked");
+			blockIconFrontEmpty = register.registerIcon(ModInfo.MOD_ID + ":" + BlockNames.blockOven + "_front_off_empty");
 		}
 		
-		blockIconTop = register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_top");
-		blockIconSide = register.registerIcon(ModInfo.modId + ":" + BlockNames.blockOven + "_side");
+		blockIconTop = register.registerIcon(ModInfo.MOD_ID + ":" + BlockNames.blockOven + "_top");
+		blockIconSide = register.registerIcon(ModInfo.MOD_ID + ":" + BlockNames.blockOven + "_side");
 	}
 	
 	/**

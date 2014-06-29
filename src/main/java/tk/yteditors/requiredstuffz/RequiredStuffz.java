@@ -10,6 +10,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import tk.yteditors.requiredstuffz.block.BlockOven;
+import tk.yteditors.requiredstuffz.config.ConfigHandler;
 import tk.yteditors.requiredstuffz.creativeTabs.MainTab;
 import tk.yteditors.requiredstuffz.item.ItemBakedPizza;
 import tk.yteditors.requiredstuffz.item.ItemUnbakedPizza;
@@ -27,13 +28,13 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = ModInfo.modId, name = "Required Stuffz", version = "1.7.2-A-1.0")
+@Mod(modid = ModInfo.MOD_ID, name = ModInfo.MOD_NAME, version = ModInfo.MOD_VERSION)
 public class RequiredStuffz {
 	
-	@Instance(value = ModInfo.modId)
+	@Instance(value = ModInfo.MOD_ID)
 	public static RequiredStuffz	instance;
 	
-	@SidedProxy(clientSide = "tk.yteditors.requiredstuffz.proxy.ClientProxy", serverSide = "tk.yteditors.requiredstuffz.proxy.ServerProxy")
+	@SidedProxy(clientSide = ModInfo.CLIENT_PROXY_CLASS, serverSide = ModInfo.SERVER_PROXY_CLASS)
 	public static IProxy			proxy;
 	
 	public static Block				blockOvenOff;
@@ -46,6 +47,9 @@ public class RequiredStuffz {
 	
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent e) {
+		//ModInfo.modLogger = e.getModLog();
+		ConfigHandler.init(e.getSuggestedConfigurationFile());
+		
 		blockOvenOff = new BlockOven(false).setBlockName(BlockNames.blockOven + "Off");
 		blockOvenOn = new BlockOven(true).setBlockName(BlockNames.blockOven + "On");
 		
@@ -72,7 +76,7 @@ public class RequiredStuffz {
 		GameRegistry.addRecipe(new ItemStack(itemUnbakedPizza), "xxx", "x x", "xxx", 'x', new ItemStack(Blocks.hay_block));
 		
 		// Registering tile entities
-		GameRegistry.registerTileEntity(TileEntityOven.class, ModInfo.modId + "TileEntityOven");
+		GameRegistry.registerTileEntity(TileEntityOven.class, ModInfo.MOD_ID + "TileEntityOven");
 	}
 	
 	@Mod.EventHandler
