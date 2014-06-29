@@ -1,4 +1,4 @@
-package tk.yteditors.requiredstuffz.tileentity;
+package tk.yteditors.requiredstuffz.tileEntity;
 
 import java.util.Random;
 
@@ -31,7 +31,7 @@ import static tk.yteditors.requiredstuffz.util.OvenMetaHelpers.*;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class TileEntityOven extends TileEntity implements ISidedInventory {
-	private int					maxBurnTime		= 0;
+	private int					maxBurnTime		= -2;
 	private int					itemBurnTime	= 0;
 	private boolean				burning			= false;
 	private ItemStack[]			itemStacks		= new ItemStack[2];
@@ -46,7 +46,6 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	@Override
 	public void writeToNBT(NBTTagCompound nbtCompound) {
 		super.writeToNBT(nbtCompound);
-		
 		nbtCompound.setInteger("maxBurnTime", maxBurnTime);
 		nbtCompound.setInteger("itemBurnTime", itemBurnTime);
 		nbtCompound.setBoolean("burning", burning);
@@ -86,7 +85,7 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	}
 	
 	@Override
-	public boolean canUpdate(){
+	public boolean canUpdate() {
 		return true;
 	}
 	
@@ -94,9 +93,10 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	public void updateEntity() {
 		super.updateEntity();
 		
-		if(!worldObj.isRemote){
+		if (!worldObj.isRemote) {
 			compareMetaToTile();
-		}else worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		} else
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		
 		if (getHasItemInSlot(slotFuel)) {
 			maxBurnTime += getItemBurnTime(itemStacks[slotFuel]);
@@ -355,13 +355,13 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 		}
 	}
 	
-	public void compareMetaToTile(){
+	public void compareMetaToTile() {
 		int metadata = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
 		boolean hasPizza = getHasItemInSlot(slotPizza);
 		boolean isPizzaBurned = hasPizza ? (itemStacks[slotPizza].getItem() instanceof ItemBakedPizza ? true : false) : false;
 		int intendedMetadata = getMetadata(hasPizza, isPizzaBurned, getMetaDirection(metadata));
 		
-		if(metadata != intendedMetadata){
+		if (metadata != intendedMetadata) {
 			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, intendedMetadata, 2);
 		}
 	}

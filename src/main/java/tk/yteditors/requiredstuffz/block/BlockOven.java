@@ -23,7 +23,7 @@ import tk.yteditors.requiredstuffz.RequiredStuffz;
 import tk.yteditors.requiredstuffz.item.ItemUnbakedPizza;
 import tk.yteditors.requiredstuffz.reference.BlockNames;
 import tk.yteditors.requiredstuffz.reference.ModInfo;
-import tk.yteditors.requiredstuffz.tileentity.TileEntityOven;
+import tk.yteditors.requiredstuffz.tileEntity.TileEntityOven;
 import static tk.yteditors.requiredstuffz.util.OvenMetaHelpers.*;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -193,8 +193,6 @@ public class BlockOven extends BlockContainer {
 				world.spawnParticle("flame", f + f4, f1, f2 + f3, 0.0D, 0.0D, 0.0D);
 			}
 		}
-		
-		if(world.getTileEntity(x, y, z).isInvalid()) System.out.println("It's null!");
 		
 	}
 	

@@ -17,7 +17,7 @@ import tk.yteditors.requiredstuffz.proxy.IProxy;
 import tk.yteditors.requiredstuffz.reference.BlockNames;
 import tk.yteditors.requiredstuffz.reference.ItemNames;
 import tk.yteditors.requiredstuffz.reference.ModInfo;
-import tk.yteditors.requiredstuffz.tileentity.TileEntityOven;
+import tk.yteditors.requiredstuffz.tileEntity.TileEntityOven;
 import tk.yteditors.requiredstuffz.util.RegisterHelper;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Instance;
