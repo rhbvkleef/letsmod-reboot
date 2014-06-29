@@ -1,15 +1,20 @@
 package tk.yteditors.requiredstuffz.tileentity;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import tk.yteditors.requiredstuffz.item.ItemUnbakedPizza;
+import java.util.Random;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
@@ -18,24 +23,31 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
+import tk.yteditors.requiredstuffz.RequiredStuffz;
+import tk.yteditors.requiredstuffz.block.BlockOven;
+import tk.yteditors.requiredstuffz.item.ItemBakedPizza;
+import tk.yteditors.requiredstuffz.item.ItemUnbakedPizza;
+import static tk.yteditors.requiredstuffz.util.OvenMetaHelpers.*;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class TileEntityOven extends TileEntity implements ISidedInventory {
 	private int					maxBurnTime		= 0;
-	private int					currentBurnTime	= 0;
 	private int					itemBurnTime	= 0;
 	private boolean				burning			= false;
 	private ItemStack[]			itemStacks		= new ItemStack[2];
 	
-	private static final int[]	slotsTop		= new int[] { 0 };
-	private static final int[]	slotsBottom		= new int[] { 1 };
-	private static final int[]	slotsSides		= new int[] { 1 };
+	private static final int	slotPizza		= 0;
+	private static final int	slotFuel		= 1;
+	
+	private static final int[]	slotsTop		= new int[] { slotPizza };
+	private static final int[]	slotsBottom		= new int[] { slotFuel };
+	private static final int[]	slotsSides		= new int[] { slotPizza };
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbtCompound) {
 		super.writeToNBT(nbtCompound);
 		
 		nbtCompound.setInteger("maxBurnTime", maxBurnTime);
-		nbtCompound.setInteger("currentBurnTime", currentBurnTime);
 		nbtCompound.setInteger("itemBurnTime", itemBurnTime);
 		nbtCompound.setBoolean("burning", burning);
 		
@@ -69,7 +81,6 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 		}
 		
 		maxBurnTime = nbtCompound.getInteger("maxBurnTime");
-		currentBurnTime = nbtCompound.getInteger("currentBurnTime");
 		itemBurnTime = nbtCompound.getInteger("itemBurnTime");
 		burning = nbtCompound.getBoolean("burning");
 	}
@@ -78,16 +89,60 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	public void updateEntity() {
 		super.updateEntity();
 		
-		if (getHasItemInSlot(1)) {
-			maxBurnTime += getItemBurnTime(itemStacks[1]);
-			System.out.println(maxBurnTime);
-			itemStacks[1] = null;
+		if (getHasItemInSlot(slotFuel)) {
+			maxBurnTime += getItemBurnTime(itemStacks[slotFuel]);
+			if (itemStacks[slotFuel].getItem() instanceof ItemBucket) {
+				Random random = new Random();
+				float rx = random.nextFloat() * 0.8F + 0.1F;
+				float ry = random.nextFloat() * 0.8F + 1.1F;
+				float rz = random.nextFloat() * 0.8F + 0.1F;
+				EntityItem entityItem = new EntityItem(worldObj, xCoord + rx, yCoord + ry, zCoord + rz, new ItemStack(Items.bucket, 1));
+				
+				float factor = 0.05F;
+				entityItem.motionX = random.nextGaussian() * factor;
+				entityItem.motionY = random.nextGaussian() * factor + 0.2F;
+				entityItem.motionZ = random.nextGaussian() * factor;
+				worldObj.spawnEntityInWorld(entityItem);
+			}
+			itemStacks[slotFuel] = null;
 		}
 		
-		if (getHasItemInSlot(1) && getHasItemInSlot(0)) {
-			currentBurnTime++;
-		} else {
+		compareMetaToTile();
+		
+		if (maxBurnTime >= -1 && ((getHasItemInSlot(slotPizza) && itemStacks[slotPizza].getItem() instanceof ItemUnbakedPizza) || burning)) {
+			--maxBurnTime;
 			
+			if (!(getHasItemInSlot(slotPizza) && itemStacks[slotPizza].getItem() instanceof ItemUnbakedPizza)) {
+				return;
+			}
+			
+			itemBurnTime++;
+			
+			if (itemBurnTime >= 200) {
+				itemBurnTime = 0;
+				itemStacks[slotPizza] = new ItemStack(RequiredStuffz.itemBakedPizza);
+				worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, getMetadata(true, true, getMetaDirection(worldObj.getBlockMetadata(
+						xCoord, yCoord, zCoord))), 2);
+			}
+			
+			burning = true;
+			BlockOven.updateOvenBlockState(true, worldObj, xCoord, yCoord, zCoord);
+		} else if (burning && maxBurnTime < -1) {
+			
+			itemBurnTime = 0;
+			burning = false;
+			
+			boolean hasItem = getHasItemInSlot(slotPizza);
+			boolean baked = false;
+			if (hasItem && itemStacks[slotPizza].getItem() instanceof ItemBakedPizza)
+				baked = true;
+			int metadata = getMetadata(hasItem, baked, getMetaDirection(worldObj.getBlockMetadata(xCoord, yCoord, zCoord)));
+			
+			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, metadata, 2);
+			BlockOven.updateOvenBlockState(false, worldObj, xCoord, yCoord, zCoord);
+			
+		} else if (burning) {
+			--maxBurnTime;
 		}
 		
 	}
@@ -248,13 +303,13 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	
 	public boolean addItem(Item item) {
 		if (item instanceof ItemUnbakedPizza) {
-			if (itemStacks[0] != null) {
-				itemStacks[0] = new ItemStack(item, 1);
+			if (itemStacks[slotPizza] != null) {
+				itemStacks[slotPizza] = new ItemStack(item, 1);
 				return true;
 			}
 		} else if (isItemFuel(new ItemStack(item, 1))) {
-			if (itemStacks[1] != null) {
-				itemStacks[1] = new ItemStack(item, 1);
+			if (itemStacks[slotFuel] != null) {
+				itemStacks[slotFuel] = new ItemStack(item, 1);
 				return true;
 			}
 		}
@@ -266,8 +321,8 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	}
 	
 	public boolean insertPizza(ItemStack item) {
-		if (itemStacks[0] == null || itemStacks[0].stackSize == 0) {
-			itemStacks[0] = item;
+		if (itemStacks[slotPizza] == null || itemStacks[slotPizza].stackSize == 0) {
+			itemStacks[slotPizza] = item;
 			return true;
 		} else {
 			return false;
@@ -275,9 +330,10 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	}
 	
 	public ItemStack removePizza() {
-		if (itemStacks[0] != null) {
-			ItemStack itemStack = itemStacks[0];
-			itemStacks[0] = null;
+		if (itemStacks[slotPizza] != null) {
+			ItemStack itemStack = itemStacks[slotPizza];
+			itemStacks[slotPizza] = null;
+			itemBurnTime = 0;
 			return itemStack;
 		} else {
 			return null;
@@ -285,11 +341,25 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	}
 	
 	public boolean insertFuel(ItemStack item) {
-		if (itemStacks[1] == null || itemStacks[1].stackSize == 0) {
-			itemStacks[1] = item;
+		if (itemStacks[slotFuel] == null || itemStacks[slotFuel].stackSize == 0) {
+			itemStacks[slotFuel] = item;
 			return true;
 		} else {
 			return false;
+		}
+	}
+	
+	public void compareMetaToTile(){
+		int metadata = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+		boolean hasPizza = getHasItemInSlot(slotPizza);
+		boolean isPizzaBurned = hasPizza ? (itemStacks[slotPizza].getItem() instanceof ItemBakedPizza ? true : false) : false;
+		int intendedMetadata = getMetadata(hasPizza, isPizzaBurned, getMetaDirection(metadata));
+		
+		if(metadata != intendedMetadata){
+			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, intendedMetadata, 2);
+			System.out.println("Old meta: " + metadata + ", new meta: " + intendedMetadata + ", burnTime: " + maxBurnTime);
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			System.out.println(gson.toJson(itemStacks));
 		}
 	}
 }

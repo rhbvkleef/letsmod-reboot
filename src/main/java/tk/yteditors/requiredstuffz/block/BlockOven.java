@@ -9,13 +9,12 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
@@ -25,6 +24,7 @@ import tk.yteditors.requiredstuffz.item.ItemUnbakedPizza;
 import tk.yteditors.requiredstuffz.reference.BlockNames;
 import tk.yteditors.requiredstuffz.reference.ModInfo;
 import tk.yteditors.requiredstuffz.tileentity.TileEntityOven;
+import static tk.yteditors.requiredstuffz.util.OvenMetaHelpers.*;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -36,6 +36,8 @@ public class BlockOven extends BlockContainer {
 	int						rotation;
 	
 	public final boolean	burning;
+	
+	public static boolean	breaking;
 	
 	public BlockOven(boolean burning) {
 		super(Material.rock);
@@ -118,6 +120,10 @@ public class BlockOven extends BlockContainer {
 	
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block par5, int par6) {
+		if (breaking) {
+			breaking = false;
+			return;
+		}
 		dropItems(world, x, y, z);
 		super.breakBlock(world, x, y, z, par5, par6);
 	}
@@ -258,61 +264,31 @@ public class BlockOven extends BlockContainer {
 				player.inventory.setInventorySlotContents(player.inventory.currentItem, tileEntity.removePizza());
 				setMetadata(world, x, y, z, getMetadata(false, false, getMetaDirection(metadata)));
 			}
-		} else if (side == 1) {
-			
-			// Player clicked on the top of the furnace
-			player.addChatMessage(IChatComponent.Serializer.func_150699_a("This feature is not yet implemented!"));
 		}
 		
 		return true;
 	}
 	
-	// Functions for getting and setting metadata
-	public int getDirection(int metadata) {
-		return getMetaDirection(metadata) + 2;
-	}
-	
-	public int getMetaDirection(int metadata) {
-		switch (metadata) {
-			case 0:
-			case 4:
-			case 8:
-			case 12:
-				return 0;
-			case 1:
-			case 5:
-			case 9:
-			case 13:
-				return 1;
-			case 2:
-			case 6:
-			case 10:
-			case 14:
-				return 2;
-			case 3:
-			case 7:
-			case 11:
-			case 15:
-				return 3;
-			default:
-				return 3;
+	public static void updateOvenBlockState(boolean makeBurning, World world, int x, int y, int z) {
+		int metadata = world.getBlockMetadata(x, y, z);
+		TileEntity tileentity = world.getTileEntity(x, y, z);
+		
+		breaking = true;
+		
+		if (makeBurning) {
+			world.setBlock(x, y, z, RequiredStuffz.blockOvenOn);
+		} else {
+			world.setBlock(x, y, z, RequiredStuffz.blockOvenOff);
 		}
-	}
-	
-	public int getMetadata(boolean hasItem, boolean isItemBaked, int direction) {
-		return hasItem ? (!isItemBaked ? direction + 4 : direction + 8) : direction;
-	}
-	
-	public void setMetadata(World world, int x, int y, int z, int metadata) {
+		
 		world.setBlockMetadataWithNotify(x, y, z, metadata, 2);
-	}
-	
-	public boolean getHasItem(int metadata) {
-		return metadata < 4 ? false : true;
-	}
-	
-	public boolean getIsItemBurned(int metadata) {
-		return metadata > 7 ? true : false;
+		
+		breaking = false;
+		
+		if (tileentity != null) {
+			tileentity.validate();
+			world.setTileEntity(x, y, z, tileentity);
+		}
 	}
 	
 }
