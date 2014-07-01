@@ -9,13 +9,11 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IChatComponent;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -24,7 +22,6 @@ import tk.yteditors.requiredstuffz.item.ItemUnbakedPizza;
 import tk.yteditors.requiredstuffz.reference.BlockNames;
 import tk.yteditors.requiredstuffz.reference.ModInfo;
 import tk.yteditors.requiredstuffz.tileEntity.TileEntityOven;
-import static tk.yteditors.requiredstuffz.util.OvenMetaHelpers.*;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -49,10 +46,26 @@ public class BlockOven extends BlockContainer {
 		setResistance(3.5f);
 		setHarvestLevel("pickaxe", 0);
 		this.burning = burning;
+		this.setBlockBounds(0f, 0f, 0f, 1f, 1.1f, 1f);
 		
 		if (burning) {
 			this.setLightLevel(0.857f);
 		}
+	}
+	
+	@Override
+	public int getRenderType() {
+		return -1;
+	}
+	
+	@Override
+	public boolean isOpaqueCube() {
+		return false;
+	}
+	
+	@Override
+	public boolean renderAsNormalBlock() {
+		return false;
 	}
 	
 	@Override
@@ -73,48 +86,17 @@ public class BlockOven extends BlockContainer {
 	}
 	
 	/**
-	 * Return icons
-	 */
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int metadata) {
-		int sideMeta = getDirection(metadata);
-		boolean hasItem = getHasItem(metadata);
-		boolean isItemBaked = getIsItemBurned(metadata);
-		
-		if (metadata == 0 && side == 3) {
-			return blockIconFrontEmpty;
-		} else if (side == 0 || side == 1) {
-			return blockIconTop;
-		} else if (sideMeta == side) {
-			return hasItem ? (isItemBaked ? blockIconFrontBaked : blockIconFrontUnbaked) : blockIconFrontEmpty;
-		} else {
-			return blockIconSide;
-		}
-	}
-	
-	/**
 	 * Set block orientation according to player's face
 	 */
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityliving, ItemStack itemStack) {
-		byte direction = 0;
-		int facing = MathHelper.floor_double((entityliving.rotationYaw * 4F) / 360F + 0.5D) & 3;
-		
-		if (facing == 0) {
-			direction = 2;
-		}
-		if (facing == 1) {
-			direction = 5;
-		}
-		if (facing == 2) {
-			direction = 3;
-		}
-		if (facing == 3) {
-			direction = 4;
+		if(entityliving == null){
+			return;
 		}
 		
-		setMetadata(world, x, y, z, getMetadata(false, false, direction - 2));
+		TileEntityOven tileEntity = (TileEntityOven) world.getTileEntity(x, y, z);
+		tileEntity.direction = MathHelper.floor_double((double) (entityliving.rotationYaw * 4f / 360f) + .5D) & 3;
+		world.markBlockForUpdate(x, y, z);
 	}
 	
 	public Item getItemDropped(World world, int x, int y, int z) {
@@ -175,23 +157,23 @@ public class BlockOven extends BlockContainer {
 	public void randomDisplayTick(World world, int x, int y, int z, Random random) {
 		
 		if (burning) {
-			int l = getDirection(world.getBlockMetadata(x, y, z));
+			int direction = ((TileEntityOven) world.getTileEntity(x, y, z)).direction;
 			float f = x + 0.5F;
 			float f1 = y + 0.0F + random.nextFloat() * 6.0F / 16.0F;
 			float f2 = z + 0.5F;
 			float f3 = 0.52F;
 			float f4 = random.nextFloat() * 0.6F - 0.3F;
 			
-			if (l == 4) {
+			if (direction == 4) {
 				world.spawnParticle("smoke", f - f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
 				world.spawnParticle("flame", f - f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
-			} else if (l == 5) {
+			} else if (direction == 5) {
 				world.spawnParticle("smoke", f + f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
 				world.spawnParticle("flame", f + f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
-			} else if (l == 2) {
+			} else if (direction == 2) {
 				world.spawnParticle("smoke", f + f4, f1, f2 - f3, 0.0D, 0.0D, 0.0D);
 				world.spawnParticle("flame", f + f4, f1, f2 - f3, 0.0D, 0.0D, 0.0D);
-			} else if (l == 3) {
+			} else if (direction == 3) {
 				world.spawnParticle("smoke", f + f4, f1, f2 + f3, 0.0D, 0.0D, 0.0D);
 				world.spawnParticle("flame", f + f4, f1, f2 + f3, 0.0D, 0.0D, 0.0D);
 			}
@@ -218,8 +200,7 @@ public class BlockOven extends BlockContainer {
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float par1, float par2, float par3) {
 		
 		TileEntityOven tileEntity = (TileEntityOven) world.getTileEntity(x, y, z);
-		int metadata = world.getBlockMetadata(x, y, z);
-		int direction = getDirection(metadata);
+		int direction = tileEntity.direction;
 		ItemStack playerItem = player.getCurrentEquippedItem();
 		
 		if (tileEntity == null || player.isSneaking() || !tileEntity.isUseableByPlayer(player)) {
@@ -239,7 +220,7 @@ public class BlockOven extends BlockContainer {
 				
 				if (success) {
 					player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
-					setMetadata(world, x, y, z, getMetadata(true, false, getMetaDirection(metadata)));
+					// Add item
 				}
 			} else if (TileEntityOven.isItemFuel(player.getHeldItem())) {
 				boolean success = tileEntity.insertFuel(new ItemStack(player.getHeldItem().getItem(), 1));
@@ -260,7 +241,7 @@ public class BlockOven extends BlockContainer {
 			if (tileEntity.getHasItemInSlot(0)) {
 				
 				player.inventory.setInventorySlotContents(player.inventory.currentItem, tileEntity.removePizza());
-				setMetadata(world, x, y, z, getMetadata(false, false, getMetaDirection(metadata)));
+				// Remove item
 			}
 		}
 		
