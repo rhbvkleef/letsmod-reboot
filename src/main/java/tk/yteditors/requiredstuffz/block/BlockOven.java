@@ -94,9 +94,7 @@ public class BlockOven extends BlockContainer {
 			return;
 		}
 		
-		TileEntityOven tileEntity = (TileEntityOven) world.getTileEntity(x, y, z);
-		tileEntity.direction = MathHelper.floor_double((double) (entityliving.rotationYaw * 4f / 360f) + .5D) & 3;
-		world.markBlockForUpdate(x, y, z);
+		world.setBlockMetadataWithNotify(x, y, z, MathHelper.floor_double((double) (entityliving.rotationYaw * 4f / 360f) + .5D) & 3, 2);
 	}
 	
 	public Item getItemDropped(World world, int x, int y, int z) {
@@ -157,7 +155,7 @@ public class BlockOven extends BlockContainer {
 	public void randomDisplayTick(World world, int x, int y, int z, Random random) {
 		
 		if (burning) {
-			int direction = ((TileEntityOven) world.getTileEntity(x, y, z)).direction;
+			int direction = world.getBlockMetadata(x, y, z);
 			float f = x + 0.5F;
 			float f1 = y + 0.0F + random.nextFloat() * 6.0F / 16.0F;
 			float f2 = z + 0.5F;
@@ -198,9 +196,8 @@ public class BlockOven extends BlockContainer {
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float par1, float par2, float par3) {
-		
 		TileEntityOven tileEntity = (TileEntityOven) world.getTileEntity(x, y, z);
-		int direction = tileEntity.direction;
+		int direction = world.getBlockMetadata(x, y, z);
 		ItemStack playerItem = player.getCurrentEquippedItem();
 		
 		if (tileEntity == null || player.isSneaking() || !tileEntity.isUseableByPlayer(player)) {

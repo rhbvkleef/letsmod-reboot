@@ -28,16 +28,16 @@ public class TileEntityOvenRenderer extends TileEntitySpecialRenderer {
 		if (te == null)
 			return;
 		TileEntityOven tileEntity = (TileEntityOven) te;
+		int direction = te.getWorldObj().getBlockMetadata(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord); 
 		
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) x + 0.5F, (float) y + .5f, (float) z + 0.5F);
 		Minecraft.getMinecraft().renderEngine.bindTexture(resourceloc);
 		GL11.glPushMatrix();
 		
-		if(tileEntity.direction == 0 || tileEntity.direction == 2) GL11.glRotatef(tileEntity.direction * (-90), 0.0F, tileEntity.direction * (-90), 1f);
-		if(tileEntity.direction == 1 || tileEntity.direction == 3) GL11.glRotatef(tileEntity.direction * (90), 0.0F, tileEntity.direction * (-90), 1f);
+		if(direction == 0 || direction == 2) GL11.glRotatef(direction * (-90), 0.0F, direction * (-90), 1f);
+		if(direction == 1 || direction == 3) GL11.glRotatef(direction * (90), 0.0F, direction * (-90), 1f);
 		
-		System.out.println(tileEntity.direction * -90);
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
 		model.render(null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 		GL11.glPopMatrix();

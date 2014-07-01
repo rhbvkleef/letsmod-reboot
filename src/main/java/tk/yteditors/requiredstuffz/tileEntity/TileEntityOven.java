@@ -32,7 +32,6 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	private int					itemBurnTime	= 0;
 	public boolean				burning			= false;
 	private ItemStack[]			itemStacks		= new ItemStack[2];
-	public int					direction		= 0;
 	
 	private static final int	slotPizza		= 0;
 	private static final int	slotFuel		= 1;
@@ -47,7 +46,6 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 		nbtCompound.setInteger("maxBurnTime", maxBurnTime);
 		nbtCompound.setInteger("itemBurnTime", itemBurnTime);
 		nbtCompound.setBoolean("burning", burning);
-		nbtCompound.setInteger("direction", direction);
 		
 		NBTTagList nbttaglist = new NBTTagList();
 		
@@ -81,7 +79,6 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 		maxBurnTime = nbtCompound.getInteger("maxBurnTime");
 		itemBurnTime = nbtCompound.getInteger("itemBurnTime");
 		burning = nbtCompound.getBoolean("burning");
-		direction = nbtCompound.getInteger("direction");
 	}
 	
 	@Override
