@@ -162,6 +162,13 @@ public class BlockOven extends BlockContainer {
 			float f3 = 0.52F;
 			float f4 = random.nextFloat() * 0.6F - 0.3F;
 			
+			if(direction == 0) direction = 3;
+			if(direction == 1) direction = 4;
+			if(direction == -2) direction = 2;
+			if(direction == -1) direction = 5;
+			
+			System.out.println(direction + " : " + world.getBlockMetadata(x, y, z));
+			
 			if (direction == 4) {
 				world.spawnParticle("smoke", f - f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
 				world.spawnParticle("flame", f - f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
@@ -197,8 +204,16 @@ public class BlockOven extends BlockContainer {
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float par1, float par2, float par3) {
 		TileEntityOven tileEntity = (TileEntityOven) world.getTileEntity(x, y, z);
-		int direction = world.getBlockMetadata(x, y, z);
+		int direction = world.getBlockMetadata(x, y, z) - 2;
+		
+		if(direction == 0) direction = 3;
+		if(direction == 1) direction = 4;
+		if(direction == -2) direction = 2;
+		if(direction == -1) direction = 5;
+		
 		ItemStack playerItem = player.getCurrentEquippedItem();
+		
+		System.out.println(direction + " : " + world.getBlockMetadata(x, y, z));
 		
 		if (tileEntity == null || player.isSneaking() || !tileEntity.isUseableByPlayer(player)) {
 			return false;

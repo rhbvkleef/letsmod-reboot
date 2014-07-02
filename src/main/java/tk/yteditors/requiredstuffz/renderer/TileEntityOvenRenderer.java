@@ -18,8 +18,8 @@ public class TileEntityOvenRenderer extends TileEntitySpecialRenderer {
 	public final OvenModel					model;
 	private static final ResourceLocation	resourceloc	= new ResourceLocation(ModInfo.MOD_ID + ":" + "textures/tileentity/computer.png");
 	
-	public TileEntityOvenRenderer() {
-		model = new OvenModel();
+	public TileEntityOvenRenderer(OvenModel model) {
+		this.model = model;
 	}
 	
 	@Override
