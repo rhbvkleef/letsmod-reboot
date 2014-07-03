@@ -17,6 +17,7 @@ import tk.yteditors.requiredstuffz.reference.ItemNames;
 import tk.yteditors.requiredstuffz.reference.ModInfo;
 import tk.yteditors.requiredstuffz.renderer.TileEntityOvenRenderer;
 import tk.yteditors.requiredstuffz.tileEntity.TileEntityOven;
+import tk.yteditors.requiredstuffz.util.LogHelper;
 import tk.yteditors.requiredstuffz.util.RegisterHelper;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.Mod;
@@ -29,7 +30,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-@Mod(modid = ModInfo.MOD_ID, name = ModInfo.MOD_NAME, version = ModInfo.MOD_VERSION)
+@Mod(modid = ModInfo.MOD_ID, name = ModInfo.MOD_NAME, version = ModInfo.MOD_VERSION, guiFactory = ModInfo.GUI_FACTORY_CLASS)
 public class RequiredStuffz {
 	
 	@Instance(value = ModInfo.MOD_ID)
@@ -62,6 +63,8 @@ public class RequiredStuffz {
 		
 		RegisterHelper.registerItem(itemUnbakedPizza);
 		RegisterHelper.registerItem(itemBakedPizza);
+		
+		LogHelper.info("Preinitialization complete!");
 	}
 	
 	@Mod.EventHandler
@@ -75,11 +78,13 @@ public class RequiredStuffz {
 		itemBakedPizza.setCreativeTab(mainTab);
 		
 		GameRegistry.addRecipe(new ItemStack(itemUnbakedPizza), "xxx", "x x", "xxx", 'x', new ItemStack(Blocks.hay_block));
+		
+		LogHelper.info("Initialization complete!");
 	}
 	
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent e) {
-		
+		LogHelper.info("Postinitialization complete!");
 	}
 	
 }

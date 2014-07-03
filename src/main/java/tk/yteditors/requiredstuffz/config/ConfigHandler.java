@@ -1,18 +1,34 @@
 package tk.yteditors.requiredstuffz.config;
 
+import static tk.yteditors.requiredstuffz.reference.ConfigSettings.CATEGORY_FOOD_NAME;
+
 import java.io.File;
 
+import net.minecraftforge.common.config.Configuration;
 import tk.yteditors.requiredstuffz.reference.Food;
 import tk.yteditors.requiredstuffz.reference.ModInfo;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.config.Property;
-import static tk.yteditors.requiredstuffz.reference.ConfigSettings.*;
+import cpw.mods.fml.client.event.ConfigChangedEvent;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class ConfigHandler {
 	
+	public static Configuration	config = null;
+	
 	public static void init(File file) {
-		Configuration config = new Configuration(file);
+		if(config == null){
+			config = new Configuration(file);
+		}
 		
+	}
+	
+	@SubscribeEvent
+	public void onConfigurastionChangedEvent(ConfigChangedEvent.OnConfigChangedEvent event) {
+		if(event.modID.equalsIgnoreCase(ModInfo.MOD_ID)) {
+			loadConfiguration();
+		}
+	}
+	
+	public void loadConfiguration() {
 		try {
 			config.load();
 			
@@ -23,10 +39,11 @@ public class ConfigHandler {
 			Food.BAKED_PIZZA_SATURATION = (float) config.get(CATEGORY_FOOD_NAME, "Baked_pizza_saturation", 4.0f, "How much saturation a baked pizza restores").getDouble(4.0f);
 			
 		} catch (Exception e) {
-			//ModInfo.modLogger.error(e.toString());
+			// Log exception
 		} finally {
-			config.save();
+			if (config.hasChanged()) {
+				config.save();
+			}
 		}
-		
 	}
 }

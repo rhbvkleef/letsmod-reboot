@@ -202,6 +202,12 @@ public class BlockOven extends BlockContainer {
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float par1, float par2, float par3) {
+		
+		if (world.isRemote) {
+			world.markBlockForUpdate(x, y, z);
+			return true;
+		}
+		
 		TileEntityOven tileEntity = (TileEntityOven) world.getTileEntity(x, y, z);
 		int direction = world.getBlockMetadata(x, y, z) - 2;
 		
@@ -212,16 +218,8 @@ public class BlockOven extends BlockContainer {
 		
 		ItemStack playerItem = player.getCurrentEquippedItem();
 		
-		//System.out.println(direction + " : " + world.getBlockMetadata(x, y, z));
-		player.addChatMessage(new ChatComponentText(direction + " : " + side));
-		
 		if (tileEntity == null || player.isSneaking() || !tileEntity.isUseableByPlayer(player)) {
 			return false;
-		}
-		
-		if (world.isRemote) {
-			world.markBlockForUpdate(x, y, z);
-			return true;
 		}
 		
 		if (playerItem != null && playerItem.stackSize > 0 && side == direction) {
@@ -232,7 +230,7 @@ public class BlockOven extends BlockContainer {
 				
 				if (success) {
 					player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
-					// Add item
+					// Update block texture
 				}
 			} else if (TileEntityOven.isItemFuel(player.getHeldItem())) {
 				boolean success = tileEntity.insertFuel(new ItemStack(player.getHeldItem().getItem(), 1));
@@ -253,7 +251,7 @@ public class BlockOven extends BlockContainer {
 			if (tileEntity.getHasItemInSlot(0)) {
 				
 				player.inventory.setInventorySlotContents(player.inventory.currentItem, tileEntity.removePizza());
-				// Remove item
+				// Update block texture
 			}
 		}
 		
