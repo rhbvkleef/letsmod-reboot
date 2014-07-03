@@ -14,6 +14,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -162,12 +163,10 @@ public class BlockOven extends BlockContainer {
 			float f3 = 0.52F;
 			float f4 = random.nextFloat() * 0.6F - 0.3F;
 			
-			if(direction == 0) direction = 3;
-			if(direction == 1) direction = 4;
-			if(direction == -2) direction = 2;
-			if(direction == -1) direction = 5;
-			
-			System.out.println(direction + " : " + world.getBlockMetadata(x, y, z));
+			if(direction == 3) direction = 4;
+			if(direction == 2) direction = 3;
+			if(direction == 0) direction = 2;
+			if(direction == 1) direction = 5;
 			
 			if (direction == 4) {
 				world.spawnParticle("smoke", f - f3, f1, f2 + f4, 0.0D, 0.0D, 0.0D);
@@ -213,7 +212,8 @@ public class BlockOven extends BlockContainer {
 		
 		ItemStack playerItem = player.getCurrentEquippedItem();
 		
-		System.out.println(direction + " : " + world.getBlockMetadata(x, y, z));
+		//System.out.println(direction + " : " + world.getBlockMetadata(x, y, z));
+		player.addChatMessage(new ChatComponentText(direction + " : " + side));
 		
 		if (tileEntity == null || player.isSneaking() || !tileEntity.isUseableByPlayer(player)) {
 			return false;
