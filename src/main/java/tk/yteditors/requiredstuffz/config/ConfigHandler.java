@@ -7,6 +7,7 @@ import java.io.File;
 import net.minecraftforge.common.config.Configuration;
 import tk.yteditors.requiredstuffz.reference.Food;
 import tk.yteditors.requiredstuffz.reference.ModInfo;
+import tk.yteditors.requiredstuffz.util.LogHelper;
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
@@ -17,6 +18,7 @@ public class ConfigHandler {
 	public static void init(File file) {
 		if(config == null){
 			config = new Configuration(file);
+			loadConfiguration();
 		}
 		
 	}
@@ -28,7 +30,7 @@ public class ConfigHandler {
 		}
 	}
 	
-	public void loadConfiguration() {
+	private static void loadConfiguration() {
 		try {
 			config.load();
 			
@@ -39,7 +41,7 @@ public class ConfigHandler {
 			Food.BAKED_PIZZA_SATURATION = (float) config.get(CATEGORY_FOOD_NAME, "Baked_pizza_saturation", 4.0f, "How much saturation a baked pizza restores").getDouble(4.0f);
 			
 		} catch (Exception e) {
-			// Log exception
+			LogHelper.error(e);
 		} finally {
 			if (config.hasChanged()) {
 				config.save();

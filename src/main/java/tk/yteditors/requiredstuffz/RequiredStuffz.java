@@ -1,7 +1,6 @@
 package tk.yteditors.requiredstuffz;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -15,11 +14,9 @@ import tk.yteditors.requiredstuffz.proxy.IProxy;
 import tk.yteditors.requiredstuffz.reference.BlockNames;
 import tk.yteditors.requiredstuffz.reference.ItemNames;
 import tk.yteditors.requiredstuffz.reference.ModInfo;
-import tk.yteditors.requiredstuffz.renderer.TileEntityOvenRenderer;
-import tk.yteditors.requiredstuffz.tileEntity.TileEntityOven;
 import tk.yteditors.requiredstuffz.util.LogHelper;
 import tk.yteditors.requiredstuffz.util.RegisterHelper;
-import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
@@ -27,8 +24,6 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @Mod(modid = ModInfo.MOD_ID, name = ModInfo.MOD_NAME, version = ModInfo.MOD_VERSION, guiFactory = ModInfo.GUI_FACTORY_CLASS)
 public class RequiredStuffz {
@@ -51,6 +46,7 @@ public class RequiredStuffz {
 	public void preInit(FMLPreInitializationEvent e) {
 		
 		ConfigHandler.init(e.getSuggestedConfigurationFile());
+		FMLCommonHandler.instance().bus().register(new ConfigHandler());
 		
 		blockOvenOff = new BlockOven(false).setBlockName(BlockNames.blockOven + "Off");
 		blockOvenOn = new BlockOven(true).setBlockName(BlockNames.blockOven + "On");

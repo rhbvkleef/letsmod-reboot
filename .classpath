@@ -169,4 +169,5 @@
 	<classpathentry kind="lib" path="C:/Users/Rolf/.gradle/caches/modules-2/files-2.1/tv.twitch/twitch-platform/5.16/39d0c3d363735b4785598e0e7fbf8297c706a9f9/twitch-platform-5.16-natives-windows-64.jar" exported="true"/>
 	<classpathentry kind="lib" path="C:/Users/Rolf/.gradle/caches/modules-2/files-2.1/tv.twitch/twitch-external-platform/4.5/18215140f010c05b9f86ef6f0f8871954d2ccebf/twitch-external-platform-4.5-natives-windows-32.jar" exported="true"/>
 	<classpathentry kind="lib" path="C:/Users/Rolf/.gradle/caches/modules-2/files-2.1/tv.twitch/twitch-external-platform/4.5/c3cde57891b935d41b6680a9c5e1502eeab76d86/twitch-external-platform-4.5-natives-windows-64.jar" exported="true"/>
+	<classpathentry kind="lib" path="C:/Users/Rolf/.gradle/caches/minecraft/net/minecraftforge/forge/1.7.10-10.13.0.1160/start" exported="true"/>
 </classpath>
