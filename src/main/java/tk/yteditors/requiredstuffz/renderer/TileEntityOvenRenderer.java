@@ -28,6 +28,7 @@ public class TileEntityOvenRenderer extends TileEntitySpecialRenderer {
 		if (te == null)
 			return;
 		TileEntityOven tileEntity = (TileEntityOven) te;
+		this.model.tileEntity = tileEntity;
 		int direction = te.getWorldObj().getBlockMetadata(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord); 
 		
 		GL11.glPushMatrix();

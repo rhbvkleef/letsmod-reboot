@@ -10,20 +10,30 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
+import org.apache.logging.log4j.Level;
+
+import tk.yteditors.requiredstuffz.tileEntity.TileEntityOven;
+import tk.yteditors.requiredstuffz.util.LogHelper;
+
+import com.google.gson.Gson;
+
 public class OvenModel extends ModelBase {
 	// fields
-	ModelRenderer	Base;
-	ModelRenderer	Side1;
-	ModelRenderer	Side2;
-	ModelRenderer	Top;
-	ModelRenderer	Chimney1;
-	ModelRenderer	Chimney2;
-	ModelRenderer	Chimney3;
-	ModelRenderer	Chimney4;
-	ModelRenderer	Back;
-	ModelRenderer	TopCorner1;
-	ModelRenderer	TopCorner2;
-	ModelRenderer	Shape1;
+	ModelRenderer			Base;
+	ModelRenderer			Side1;
+	ModelRenderer			Side2;
+	ModelRenderer			Top;
+	ModelRenderer			Chimney1;
+	ModelRenderer			Chimney2;
+	ModelRenderer			Chimney3;
+	ModelRenderer			Chimney4;
+	ModelRenderer			Back;
+	ModelRenderer			TopCorner1;
+	ModelRenderer			TopCorner2;
+	ModelRenderer			Shape1;
+	ModelRenderer			Pizza;
+	
+	public TileEntityOven	tileEntity;
 	
 	public OvenModel() {
 		textureWidth = 64;
@@ -101,6 +111,13 @@ public class OvenModel extends ModelBase {
 		Shape1.setTextureSize(64, 64);
 		Shape1.mirror = true;
 		setRotation(Shape1, 0F, 0F, 0F);
+		// Pizza
+		Pizza = new ModelRenderer(this, 0, 0);
+		Pizza.addBox(0F, 0F, 0F, 6, 1, 6);
+		Pizza.setRotationPoint(-3F, 2F, -5F);
+		Pizza.setTextureSize(64, 64);
+		Pizza.mirror = true;
+		setRotation(Pizza, 0F, 0F, 0F);
 	}
 	
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
@@ -118,6 +135,10 @@ public class OvenModel extends ModelBase {
 		TopCorner1.render(f5);
 		TopCorner2.render(f5);
 		Shape1.render(f5);
+		LogHelper.log(Level.INFO, this.tileEntity.getHasItemInSlot(TileEntityOven.SLOT_FUEL));
+		if (this.tileEntity.getHasItemInSlot(TileEntityOven.SLOT_PIZZA)) {
+			Pizza.render(f5);
+		}
 	}
 	
 	private void setRotation(ModelRenderer model, float x, float y, float z) {

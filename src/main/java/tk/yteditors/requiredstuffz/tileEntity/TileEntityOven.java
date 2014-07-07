@@ -33,12 +33,12 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	public boolean				burning			= false;
 	private ItemStack[]			itemStacks		= new ItemStack[2];
 	
-	private static final int	slotPizza		= 0;
-	private static final int	slotFuel		= 1;
+	public static final int		SLOT_PIZZA		= 0;
+	public static final int		SLOT_FUEL		= 1;
 	
-	private static final int[]	slotsTop		= new int[] { slotPizza };
-	private static final int[]	slotsBottom		= new int[] { slotFuel };
-	private static final int[]	slotsSides		= new int[] { slotPizza, slotFuel };
+	private static final int[]	slotsTop		= new int[] { SLOT_PIZZA };
+	private static final int[]	slotsBottom		= new int[] { SLOT_FUEL };
+	private static final int[]	slotsSides		= new int[] { SLOT_PIZZA, SLOT_FUEL };
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbtCompound) {
@@ -90,9 +90,9 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	public void updateEntity() {
 		super.updateEntity();
 		
-		if (getHasItemInSlot(slotFuel)) {
-			maxBurnTime += getItemBurnTime(itemStacks[slotFuel]);
-			if (itemStacks[slotFuel].getItem() instanceof ItemBucket) {
+		if (getHasItemInSlot(SLOT_FUEL)) {
+			maxBurnTime += getItemBurnTime(itemStacks[SLOT_FUEL]);
+			if (itemStacks[SLOT_FUEL].getItem() instanceof ItemBucket) {
 				Random random = new Random();
 				float rx = random.nextFloat() * 0.8F + 0.1F;
 				float ry = random.nextFloat() * 0.8F + 1.1F;
@@ -105,13 +105,13 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 				entityItem.motionZ = random.nextGaussian() * factor;
 				worldObj.spawnEntityInWorld(entityItem);
 			}
-			itemStacks[slotFuel] = null;
+			itemStacks[SLOT_FUEL] = null;
 		}
 		
-		if (maxBurnTime >= -1 && ((getHasItemInSlot(slotPizza) && itemStacks[slotPizza].getItem() instanceof ItemUnbakedPizza) || burning)) {
+		if (maxBurnTime >= -1 && ((getHasItemInSlot(SLOT_PIZZA) && itemStacks[SLOT_PIZZA].getItem() instanceof ItemUnbakedPizza) || burning)) {
 			--maxBurnTime;
 			
-			if (!(getHasItemInSlot(slotPizza) && itemStacks[slotPizza].getItem() instanceof ItemUnbakedPizza)) {
+			if (!(getHasItemInSlot(SLOT_PIZZA) && itemStacks[SLOT_PIZZA].getItem() instanceof ItemUnbakedPizza)) {
 				return;
 			}
 			
@@ -119,7 +119,7 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 			
 			if (itemBurnTime >= 200) {
 				itemBurnTime = 0;
-				itemStacks[slotPizza] = new ItemStack(RequiredStuffz.itemBakedPizza);
+				itemStacks[SLOT_PIZZA] = new ItemStack(RequiredStuffz.itemBakedPizza);
 				// Set pizza to baked
 			}
 			
@@ -238,7 +238,7 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	
 	@Override
 	public boolean canExtractItem(int slot, ItemStack item, int side) {
-		return side != 0 || slot != slotFuel;
+		return side != 0 || slot != SLOT_FUEL;
 	}
 	
 	public static boolean isItemFuel(ItemStack item) {
@@ -293,13 +293,13 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	
 	public boolean addItem(Item item) {
 		if (item instanceof ItemUnbakedPizza) {
-			if (itemStacks[slotPizza] != null) {
-				itemStacks[slotPizza] = new ItemStack(item, 1);
+			if (itemStacks[SLOT_PIZZA] != null) {
+				itemStacks[SLOT_PIZZA] = new ItemStack(item, 1);
 				return true;
 			}
 		} else if (isItemFuel(new ItemStack(item, 1))) {
-			if (itemStacks[slotFuel] != null) {
-				itemStacks[slotFuel] = new ItemStack(item, 1);
+			if (itemStacks[SLOT_FUEL] != null) {
+				itemStacks[SLOT_FUEL] = new ItemStack(item, 1);
 				return true;
 			}
 		}
@@ -311,8 +311,8 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	}
 	
 	public boolean insertPizza(ItemStack item) {
-		if (itemStacks[slotPizza] == null || itemStacks[slotPizza].stackSize == 0) {
-			itemStacks[slotPizza] = item;
+		if (itemStacks[SLOT_PIZZA] == null || itemStacks[SLOT_PIZZA].stackSize == 0) {
+			itemStacks[SLOT_PIZZA] = item;
 			return true;
 		} else {
 			return false;
@@ -320,9 +320,9 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	}
 	
 	public ItemStack removePizza() {
-		if (itemStacks[slotPizza] != null) {
-			ItemStack itemStack = itemStacks[slotPizza];
-			itemStacks[slotPizza] = null;
+		if (itemStacks[SLOT_PIZZA] != null) {
+			ItemStack itemStack = itemStacks[SLOT_PIZZA];
+			itemStacks[SLOT_PIZZA] = null;
 			itemBurnTime = 0;
 			return itemStack;
 		} else {
@@ -331,8 +331,8 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	}
 	
 	public boolean insertFuel(ItemStack item) {
-		if (!getHasItemInSlot(slotFuel)) {
-			itemStacks[slotFuel] = item;
+		if (!getHasItemInSlot(SLOT_FUEL)) {
+			itemStacks[SLOT_FUEL] = item;
 			return true;
 		} else {
 			return false;
