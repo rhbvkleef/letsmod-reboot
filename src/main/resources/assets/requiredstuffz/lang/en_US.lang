@@ -1,7 +1,7 @@
 tile.blockOvenOn.name=Pizza oven, active
 tile.blockOvenOff.name=Pizza oven
 
-item.itemBakedPizza.name=Pizza
-item.itemUnbakedPizza.name=Unbaked pizza
+item.requiredstuffz:itemBakedPizza.name=Pizza
+item.requiredstuffz:itemUnbakedPizza.name=Unbaked pizza
 
 itemGroup.Required stuffz=Required stuffz

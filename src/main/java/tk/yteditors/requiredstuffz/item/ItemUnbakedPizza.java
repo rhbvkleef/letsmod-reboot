@@ -6,11 +6,9 @@ import tk.yteditors.requiredstuffz.reference.ModInfo;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemFood;
 
-public class ItemUnbakedPizza extends ItemFood {
+public class ItemUnbakedPizza extends RSItemFood {
 	public ItemUnbakedPizza() {
-		super(Food.UNBAKED_PIZZA_HUNGER, Food.UNBAKED_PIZZA_SATURATION, false);
+		super(Food.UNBAKED_PIZZA_HUNGER, Food.UNBAKED_PIZZA_SATURATION);
 		setUnlocalizedName(ItemNames.itemUnbakedPizza);
-		setMaxStackSize(1);
-		setTextureName(ModInfo.MOD_ID + ":" + getUnlocalizedName().substring(5));
 	}
 }
