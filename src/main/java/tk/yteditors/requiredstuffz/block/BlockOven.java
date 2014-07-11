@@ -26,7 +26,7 @@ import tk.yteditors.requiredstuffz.tileEntity.TileEntityOven;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockOven extends BlockContainer {
+public class BlockOven extends RSBlockContainer{
 	
 	// Cheatsheet shortcut :)
 	// BlockFurnace

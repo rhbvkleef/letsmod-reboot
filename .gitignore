@@ -6,6 +6,8 @@ bin
 .gradle
 .settings
 build
+logs
+config
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
