@@ -1,8 +1,8 @@
 package tk.yteditors.requiredstuffz.creativeTabs;
 
-import tk.yteditors.requiredstuffz.RequiredStuffz;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import tk.yteditors.requiredstuffz.block.Block;
 
 public class MainTab extends CreativeTabs {
 	
@@ -12,7 +12,7 @@ public class MainTab extends CreativeTabs {
 	
 	@Override
 	public Item getTabIconItem() {
-		return Item.getItemFromBlock(RequiredStuffz.blockOvenOn);
+		return Item.getItemFromBlock(Block.blockOvenOn);
 	}
 	
 }
