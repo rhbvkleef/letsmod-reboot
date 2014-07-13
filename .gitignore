@@ -1,5 +1,10 @@
 *.class
 
+# IDEA project files
+*.iml
+*.ipr
+*.iws
+
 # Some folders that aren't needed
 eclipse
 bin
