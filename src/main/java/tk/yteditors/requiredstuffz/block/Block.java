@@ -3,9 +3,6 @@ package tk.yteditors.requiredstuffz.block;
 import tk.yteditors.requiredstuffz.reference.BlockNames;
 import tk.yteditors.requiredstuffz.util.RegisterHelper;
 
-/**
- * Created by Rolf on 7/13/2014.
- */
 public class Block {
 
 	public static net.minecraft.block.Block blockOvenOff;

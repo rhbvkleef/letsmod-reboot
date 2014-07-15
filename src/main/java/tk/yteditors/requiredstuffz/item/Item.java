@@ -3,9 +3,6 @@ package tk.yteditors.requiredstuffz.item;
 import tk.yteditors.requiredstuffz.reference.ItemNames;
 import tk.yteditors.requiredstuffz.util.RegisterHelper;
 
-/**
- * Created by Rolf on 7/13/2014.
- */
 public class Item {
 
 	public static net.minecraft.item.Item itemUnbakedPizza;

@@ -9,15 +9,10 @@ package tk.yteditors.requiredstuffz.models;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-
-import org.apache.logging.log4j.Level;
-
 import tk.yteditors.requiredstuffz.tileEntity.TileEntityOven;
-import tk.yteditors.requiredstuffz.util.LogHelper;
-
-import com.google.gson.Gson;
 
 public class OvenModel extends ModelBase {
+	public TileEntityOven tileEntity;
 	// fields
 	ModelRenderer			Base;
 	ModelRenderer			Side1;
@@ -32,8 +27,6 @@ public class OvenModel extends ModelBase {
 	ModelRenderer			TopCorner2;
 	ModelRenderer			Shape1;
 	ModelRenderer			Pizza;
-	
-	public TileEntityOven	tileEntity;
 	
 	public OvenModel() {
 		textureWidth = 64;
@@ -135,7 +128,6 @@ public class OvenModel extends ModelBase {
 		TopCorner1.render(f5);
 		TopCorner2.render(f5);
 		Shape1.render(f5);
-		LogHelper.log(Level.INFO, this.tileEntity.getHasItemInSlot(TileEntityOven.SLOT_FUEL));
 		if (this.tileEntity.getHasItemInSlot(TileEntityOven.SLOT_PIZZA)) {
 			Pizza.render(f5);
 		}
