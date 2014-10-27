@@ -128,9 +128,7 @@ public class OvenModel extends ModelBase {
 		TopCorner1.render(f5);
 		TopCorner2.render(f5);
 		Shape1.render(f5);
-		if (this.tileEntity.getHasItemInSlot(TileEntityOven.SLOT_PIZZA)) {
-			Pizza.render(f5);
-		}
+		Pizza.render(f5);
 	}
 	
 	private void setRotation(ModelRenderer model, float x, float y, float z) {

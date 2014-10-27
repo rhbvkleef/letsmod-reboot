@@ -6,11 +6,10 @@
 
 package tk.yteditors.requiredstuffz.models;
 
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
-public class OvenModelWithPizza extends ModelBase {
+public class OvenModelWithPizza extends OvenModel {
 	// fields
 	ModelRenderer	Base;
 	ModelRenderer	Side1;

@@ -16,7 +16,7 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void registerRenderers() {
 		OvenModel ovenModel = new OvenModel();
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityOven.class, new TileEntityOvenRenderer(ovenModel));
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityOven.class, new TileEntityOvenRenderer());
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Block.blockOvenOff), new RenderOvenItem(ovenModel));
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(Block.blockOvenOn), new RenderOvenItem(ovenModel));
 	}
