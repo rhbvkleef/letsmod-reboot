@@ -4,13 +4,12 @@
   "name": "Required stuffz",
   "description": "Adds required blocks and items to the game",
   "version": "A-1.0",
-  "mcversion": "1.7.2",
+  "mcversion": "1.7.10",
   "url": "http://yteditors.tk/",
   "updateUrl": "",
   "authorList": ["Rolf van Kleef"],
   "credits": "Pahimar",
   "screenshots": [],
-  "parent" : "",
   "dependencies": []
 }
 ]
