@@ -13,12 +13,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import tk.yteditors.requiredstuffz.item.ItemUnbakedPizza;
-import tk.yteditors.requiredstuffz.reference.BlockNames;
-import tk.yteditors.requiredstuffz.reference.ModInfo;
 import tk.yteditors.requiredstuffz.tileEntity.TileEntityOven;
 
 import java.util.Random;
@@ -28,8 +25,6 @@ public class BlockOven extends RSBlockContainer{
 	public static boolean breaking;
 	public final boolean burning;
 	int						rotation;
-	@SideOnly(Side.CLIENT)
-	private IIcon blockIconFrontEmpty, blockIconFrontUnbaked, blockIconFrontBaked, blockIconTop, blockIconSide;
 	
 	public BlockOven(boolean burning) {
 		super(Material.rock);
@@ -85,18 +80,7 @@ public class BlockOven extends RSBlockContainer{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister register) {
-		if (burning) {
-			blockIconFrontUnbaked = register.registerIcon(ModInfo.MOD_ID + ":" + BlockNames.blockOven + "_front_on_unbaked");
-			blockIconFrontBaked = register.registerIcon(ModInfo.MOD_ID + ":" + BlockNames.blockOven + "_front_on_baked");
-			blockIconFrontEmpty = register.registerIcon(ModInfo.MOD_ID + ":" + BlockNames.blockOven + "_front_on_empty");
-		} else {
-			blockIconFrontUnbaked = register.registerIcon(ModInfo.MOD_ID + ":" + BlockNames.blockOven + "_front_off_unbaked");
-			blockIconFrontBaked = register.registerIcon(ModInfo.MOD_ID + ":" + BlockNames.blockOven + "_front_off_baked");
-			blockIconFrontEmpty = register.registerIcon(ModInfo.MOD_ID + ":" + BlockNames.blockOven + "_front_off_empty");
-		}
-
-		blockIconTop = register.registerIcon(ModInfo.MOD_ID + ":" + BlockNames.blockOven + "_top");
-		blockIconSide = register.registerIcon(ModInfo.MOD_ID + ":" + BlockNames.blockOven + "_side");
+		// Done by TileEntityOvenRenderer
 	}
 
 	/**
@@ -239,11 +223,8 @@ public class BlockOven extends RSBlockContainer{
 
 			// Player clicked on front side of furnace with an item
 			if (player.getHeldItem().getItem() instanceof ItemUnbakedPizza) {
-				boolean success = tileEntity.insertPizza(player.getHeldItem());
-
-				if (success) {
+				if (tileEntity.insertPizza(player.getHeldItem())) {
 					player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
-					// Update block texture
 				}
 			} else if (TileEntityOven.isItemFuel(player.getHeldItem())) {
 				boolean success = tileEntity.insertFuel(new ItemStack(player.getHeldItem().getItem(), 1));
@@ -259,12 +240,8 @@ public class BlockOven extends RSBlockContainer{
 				}
 			}
 		} else if (side == direction && (playerItem == null || playerItem.stackSize == 0)) {
-
-			// Player clicked on furnace without an item
-			if (tileEntity.getHasItemInSlot(0)) {
-
+			if (tileEntity.getHasItemInSlot(TileEntityOven.SLOT_PIZZA)) {
 				player.inventory.setInventorySlotContents(player.inventory.currentItem, tileEntity.removePizza());
-				// Update block texture
 			}
 		}
 

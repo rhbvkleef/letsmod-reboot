@@ -20,15 +20,16 @@ import tk.yteditors.requiredstuffz.item.ItemUnbakedPizza;
 import java.util.Random;
 
 public class TileEntityOven extends TileEntity implements ISidedInventory {
-	public static final int SLOT_PIZZA = 0;
-	private static final int[] slotsTop = new int[]{SLOT_PIZZA};
-	public static final int SLOT_FUEL = 1;
-	private static final int[] slotsBottom = new int[]{SLOT_FUEL};
-	private static final int[] slotsSides = new int[]{SLOT_PIZZA, SLOT_FUEL};
+
+	public static final int SLOT_PIZZA = 0,
+			SLOT_FUEL = 1;
+	private static final int[] slotsTop = new int[]{SLOT_PIZZA},
+			slotsBottom = new int[]{SLOT_FUEL},
+			slotsSides = new int[]{SLOT_PIZZA, SLOT_FUEL};
 	public boolean burning = false;
-	private int					maxBurnTime		= -2;
-	private int					itemBurnTime	= 0;
-	private ItemStack[]			itemStacks		= new ItemStack[2];
+	public ItemStack[] itemStacks = new ItemStack[2];
+	private int maxBurnTime = -2,
+			itemBurnTime = 0;
 
 	public static boolean isItemFuel(ItemStack item) {
 		return getItemBurnTime(item) > 0;
@@ -247,16 +248,19 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
-		return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : player.getDistanceSq(this.xCoord + 0.5D,
+
+		return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) == this && player.getDistanceSq(this.xCoord + 0.5D,
 				this.yCoord + 0.5D, this.zCoord + 0.5D) <= 64.0D;
 	}
 	
 	@Override
 	public void openInventory() {
+		// This tileentity does not have an inventory GUI
 	}
 	
 	@Override
 	public void closeInventory() {
+		// This tileentity does not have an inventory GUI
 	}
 	
 	@Override
@@ -299,7 +303,8 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	}
 	
 	public boolean getHasItemInSlot(int slot) {
-		return itemStacks[slot] == null ? false : (itemStacks[slot].stackSize == 0 ? false : true);
+
+		return itemStacks[slot] != null && (itemStacks[slot].stackSize > 0);
 	}
 	
 	public boolean insertPizza(ItemStack item) {
