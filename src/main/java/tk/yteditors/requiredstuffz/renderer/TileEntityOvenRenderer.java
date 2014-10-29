@@ -14,7 +14,6 @@ import tk.yteditors.requiredstuffz.tileEntity.TileEntityOven;
 
 public class TileEntityOvenRenderer extends TileEntitySpecialRenderer {
 
-	//TODO add texture
 	public static final ResourceLocation bakedResourceLoc = new ResourceLocation(ModInfo.MOD_ID + ":" + "textures/tileEntities/OvenBakedPizza.png");
 	public static final ResourceLocation unbakedResourceLoc = new ResourceLocation(ModInfo.MOD_ID + ":" + "textures/tileEntities/OvenUnbakedPizza.png");
 	public final OvenModel model;
