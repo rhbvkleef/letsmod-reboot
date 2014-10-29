@@ -17,6 +17,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import tk.yteditors.requiredstuffz.item.ItemUnbakedPizza;
 import tk.yteditors.requiredstuffz.tileEntity.TileEntityOven;
+import tk.yteditors.requiredstuffz.util.TileEntityHelper;
 
 import java.util.Random;
 
@@ -216,6 +217,7 @@ public class BlockOven extends RSBlockContainer{
 		ItemStack playerItem = player.getCurrentEquippedItem();
 
 		if (tileEntity == null || player.isSneaking() || !tileEntity.isUseableByPlayer(player)) {
+			TileEntityHelper.markTileEntityForUpdate(tileEntity);
 			return false;
 		}
 
@@ -244,7 +246,7 @@ public class BlockOven extends RSBlockContainer{
 				player.inventory.setInventorySlotContents(player.inventory.currentItem, tileEntity.removePizza());
 			}
 		}
-
+		TileEntityHelper.markTileEntityForUpdate(tileEntity);
 		return true;
 	}
 	

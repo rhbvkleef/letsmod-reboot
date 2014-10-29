@@ -36,7 +36,7 @@ public class RenderOvenItem implements IItemRenderer {
 		GL11.glScalef(1f, 1f, 1f);
 		GL11.glTranslatef(0, 1, 0);
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
-		Minecraft.getMinecraft().getTextureManager().bindTexture(TileEntityOvenRenderer.resourceloc);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(TileEntityOvenRenderer.unbakedResourceLoc);
 		model.render(null, 0, 0, 0, 0, 0, 0.0625f);
 
 		GL11.glPopMatrix();

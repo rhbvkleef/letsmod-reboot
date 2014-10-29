@@ -11,11 +11,15 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
 import tk.yteditors.requiredstuffz.block.BlockOven;
 import tk.yteditors.requiredstuffz.item.Item;
 import tk.yteditors.requiredstuffz.item.ItemUnbakedPizza;
+import tk.yteditors.requiredstuffz.util.TileEntityHelper;
 
 import java.util.Random;
 
@@ -94,7 +98,7 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 			if (this.itemStacks[i] != null) {
 				NBTTagCompound tag = new NBTTagCompound();
 				tag.setByte("slot", (byte) i);
-				itemStacks[i].writeToNBT(tag);
+				this.itemStacks[i].writeToNBT(tag);
 				nbttaglist.appendTag(tag);
 			}
 		}
@@ -106,14 +110,14 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	public void readFromNBT(NBTTagCompound nbtCompound) {
 		super.readFromNBT(nbtCompound);
 		NBTTagList nbttaglist = nbtCompound.getTagList("Items", Constants.NBT.TAG_COMPOUND);
-		itemStacks = new ItemStack[getSizeInventory()];
+		this.itemStacks = new ItemStack[getSizeInventory()];
 
 		for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-			NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
-			byte slot = nbttagcompound1.getByte("slot");
+			NBTTagCompound nbtTagCompound = nbttaglist.getCompoundTagAt(i);
+			byte slot = nbtTagCompound.getByte("slot");
 
 			if (slot >= 0 && slot < itemStacks.length) {
-				itemStacks[slot] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
+				this.itemStacks[slot] = ItemStack.loadItemStackFromNBT(nbtTagCompound);
 			}
 		}
 
@@ -170,9 +174,9 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 
 			itemBurnTime = 0;
 			burning = false;
-
-			// Disable burning
-
+			if (getWorldObj().getBlock(xCoord, yCoord, zCoord) instanceof BlockOven) {
+				((BlockOven) getWorldObj().getBlock(xCoord, yCoord, zCoord)).updateOvenBlockState(false, getWorldObj(), xCoord, yCoord, zCoord);
+			}
 		} else if (burning) {
 			--maxBurnTime;
 		}
@@ -196,6 +200,7 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 			if (this.itemStacks[slot].stackSize <= count) {
 				itemstack = itemStacks[slot];
 				itemStacks[slot] = null;
+				TileEntityHelper.markTileEntityForUpdate(this);
 				return itemstack;
 			} else {
 				itemstack = this.itemStacks[slot].splitStack(count);
@@ -204,6 +209,7 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 					itemStacks[slot] = null;
 				}
 
+				TileEntityHelper.markTileEntityForUpdate(this);
 				return itemstack;
 			}
 		} else {
@@ -229,6 +235,7 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 		if (parItemStack != null && parItemStack.stackSize > this.getInventoryStackLimit()) {
 			parItemStack.stackSize = this.getInventoryStackLimit();
 		}
+		TileEntityHelper.markTileEntityForUpdate(this);
 	}
 	
 	@Override
@@ -285,6 +292,20 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 	@Override
 	public boolean canExtractItem(int slot, ItemStack item, int side) {
 		return side != 0 || slot != SLOT_FUEL;
+	}
+
+	@Override
+	public Packet getDescriptionPacket() {
+
+		NBTTagCompound tag = new NBTTagCompound();
+		writeToNBT(tag);
+		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, tag);
+	}
+
+	@Override
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
+
+		readFromNBT(packet.func_148857_g());
 	}
 
 	public boolean addItem(net.minecraft.item.Item item) {
