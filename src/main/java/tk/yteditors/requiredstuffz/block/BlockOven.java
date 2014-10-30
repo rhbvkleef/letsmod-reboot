@@ -179,6 +179,8 @@ public class BlockOven extends RSBlockContainer{
 				world.spawnParticle("smoke", f + f4, f1, f2 + f3, 0.0D, 0.0D, 0.0D);
 				world.spawnParticle("flame", f + f4, f1, f2 + f3, 0.0D, 0.0D, 0.0D);
 			}
+
+			world.spawnParticle("smoke", x + .5f, y + 1.1f, z + .5f, 0.0D, 0.0D, 0.0D);
 		}
 
 	}
@@ -249,5 +251,4 @@ public class BlockOven extends RSBlockContainer{
 		TileEntityHelper.markTileEntityForUpdate(tileEntity);
 		return true;
 	}
-	
 }

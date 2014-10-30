@@ -32,7 +32,7 @@ public class TileEntityOven extends TileEntity implements ISidedInventory {
 			slotsSides = new int[]{SLOT_PIZZA, SLOT_FUEL};
 	public boolean burning = false;
 	public ItemStack[] itemStacks = new ItemStack[2];
-	private int maxBurnTime = -2,
+	public int maxBurnTime = -2,
 			itemBurnTime = 0;
 
 	public static boolean isItemFuel(ItemStack item) {

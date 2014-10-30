@@ -5,6 +5,7 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -53,12 +54,15 @@ public class RequiredStuffz {
 		Item.itemBakedPizza.setCreativeTab(mainTab);
 
 		GameRegistry.addRecipe(new ItemStack(Item.itemUnbakedPizza), "xxx", "x x", "xxx", 'x', new ItemStack(Blocks.hay_block));
-		
+
+		FMLInterModComms.sendMessage("Waila", "register", "tk.yteditors.requiredstuffz.compat.Waila.register");
+
 		LogHelper.info("Initialization complete!");
 	}
 	
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent e) {
+
 		LogHelper.info("Post-initialization complete!");
 	}
 	
