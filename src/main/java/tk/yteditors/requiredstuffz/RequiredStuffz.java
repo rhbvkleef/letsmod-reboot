@@ -5,7 +5,6 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -13,6 +12,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import tk.yteditors.requiredstuffz.block.Block;
+import tk.yteditors.requiredstuffz.compat.ThirdPartyManager;
 import tk.yteditors.requiredstuffz.config.ConfigHandler;
 import tk.yteditors.requiredstuffz.creativeTabs.MainTab;
 import tk.yteditors.requiredstuffz.item.Item;
@@ -30,7 +30,14 @@ public class RequiredStuffz {
 	public static IProxy			proxy;
 	
 	public static CreativeTabs		mainTab;
-	
+
+	public static ThirdPartyManager thirdPartyManager = new ThirdPartyManager();
+
+	public RequiredStuffz() {
+
+		thirdPartyManager.index();
+	}
+
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent e) {
 		
@@ -39,6 +46,8 @@ public class RequiredStuffz {
 
 		Block.registerBlocks();
 		Item.registerItems();
+
+		thirdPartyManager.preInit();
 
 		LogHelper.info("Pre-initialization complete!");
 	}
@@ -55,13 +64,15 @@ public class RequiredStuffz {
 
 		GameRegistry.addRecipe(new ItemStack(Item.itemUnbakedPizza), "xxx", "x x", "xxx", 'x', new ItemStack(Blocks.hay_block));
 
-		FMLInterModComms.sendMessage("Waila", "register", "tk.yteditors.requiredstuffz.compat.Waila.register");
+		thirdPartyManager.init();
 
 		LogHelper.info("Initialization complete!");
 	}
 	
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent e) {
+
+		thirdPartyManager.postInit();
 
 		LogHelper.info("Post-initialization complete!");
 	}
