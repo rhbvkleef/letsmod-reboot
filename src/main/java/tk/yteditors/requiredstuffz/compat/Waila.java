@@ -17,6 +17,12 @@ public class Waila implements IThirdPartyCompat {
 	}
 
 	@Override
+	public String getModId() {
+
+		return "Waila";
+	}
+
+	@Override
 	public void preInit() {
 
 	}
@@ -25,7 +31,7 @@ public class Waila implements IThirdPartyCompat {
 	public void init() {
 
 		LogHelper.info("Registering waila with function: " + getClass().getName() + ".register");
-		FMLInterModComms.sendMessage("Waila", "register", getClass().getName() + ".register");
+		FMLInterModComms.sendMessage(getModId(), "register", getClass().getName() + ".register");
 	}
 
 	@Override

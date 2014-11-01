@@ -21,13 +21,14 @@ import tk.yteditors.requiredstuffz.util.TileEntityHelper;
 
 import java.util.Random;
 
-public class BlockOven extends RSBlockContainer{
+public class BlockOven extends RSBlockContainer {
 
 	public static boolean breaking;
 	public final boolean burning;
-	int						rotation;
-	
+	int rotation;
+
 	public BlockOven(boolean burning) {
+
 		super(Material.rock);
 		setStepSound(Block.soundTypeStone);
 		setHardness(2f);
@@ -35,13 +36,14 @@ public class BlockOven extends RSBlockContainer{
 		setHarvestLevel("pickaxe", 0);
 		this.burning = burning;
 		this.setBlockBounds(0f, 0f, 0f, 1f, 1.1f, 1f);
-		
+
 		if (burning) {
 			this.setLightLevel(0.857f);
 		}
 	}
 
 	public static void updateOvenBlockState(boolean makeBurning, World world, int x, int y, int z) {
+
 		int metadata = world.getBlockMetadata(x, y, z);
 		TileEntity tileentity = world.getTileEntity(x, y, z);
 
@@ -62,22 +64,25 @@ public class BlockOven extends RSBlockContainer{
 			world.setTileEntity(x, y, z, tileentity);
 		}
 	}
-	
+
 	@Override
 	public int getRenderType() {
+
 		return -1;
 	}
-	
+
 	@Override
 	public boolean isOpaqueCube() {
+
 		return false;
 	}
-	
+
 	@Override
 	public boolean renderAsNormalBlock() {
+
 		return false;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister register) {
@@ -89,6 +94,7 @@ public class BlockOven extends RSBlockContainer{
 	 */
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityliving, ItemStack itemStack) {
+
 		if (entityliving == null) {
 			return;
 		}
@@ -97,11 +103,13 @@ public class BlockOven extends RSBlockContainer{
 	}
 
 	public Item getItemDropped(World world, int x, int y, int z) {
+
 		return Item.getItemFromBlock(this);
 	}
 
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block par5, int par6) {
+
 		if (breaking) {
 			breaking = false;
 			return;
@@ -111,6 +119,7 @@ public class BlockOven extends RSBlockContainer{
 	}
 
 	private void dropItems(World world, int x, int y, int z) {
+
 		Random rand = new Random();
 		TileEntity tileEntity = world.getTileEntity(x, y, z);
 
@@ -143,12 +152,13 @@ public class BlockOven extends RSBlockContainer{
 			}
 		}
 	}
-	
+
 	@Override
 	public Item getItem(World world, int x, int y, int z) {
+
 		return Item.getItemFromBlock(tk.yteditors.requiredstuffz.block.Block.blockOvenOff);
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random random) {
@@ -184,19 +194,22 @@ public class BlockOven extends RSBlockContainer{
 		}
 
 	}
-	
+
 	@Override
 	public boolean hasTileEntity() {
+
 		return true;
 	}
-	
+
 	@Override
 	public TileEntity createNewTileEntity(World var1, int var2) {
+
 		return new TileEntityOven();
 	}
-	
+
 	@Override
 	public TileEntity createTileEntity(World world, int metadata) {
+
 		return new TileEntityOven();
 	}
 
